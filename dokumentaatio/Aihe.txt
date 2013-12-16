@@ -1,0 +1,13 @@
+Aihe: Miineharava
+Näin aluksit tarkoituksena toteuttaa 10x10 miinaharava. Ruudut joiden
+ympärillä on miinoja on luku juku, joka kertoo ympärillä olevien miinojen
+lukumäärän. pelaaja voi merkitä missä ruudukossa epäilee miinan sijaitsevan
+Pelin voittaa kun kaikki miinat on merkitty oikein ja muut ruudut avattu.
+Pelin häviää jos avaa ruudun jossa on miina.
+
+Käyttäjät: Pelaaja
+
+Toiminnot:
+  * Ruudun avaaminen
+      -Merkittyä ruutua ei voi avata
+  * Miinan Merkitseminen
