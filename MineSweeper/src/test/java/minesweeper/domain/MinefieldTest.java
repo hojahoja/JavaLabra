@@ -31,7 +31,7 @@ public class MinefieldTest {
 
     @Before
     public void setUp() {
-        testField = new Minefield();
+        testField = new Minefield(10,10,10);
     }
 
     @After
@@ -39,7 +39,7 @@ public class MinefieldTest {
     }
 
     @Test
-    public void initialGettersDefaultTo10() {
+    public void initialGettersGiveCorrectValues() {
         assertEquals(testField.getHeight(), 10);
         assertEquals(testField.getWidth(), 10);
         assertEquals(testField.getMines(), 10);
@@ -89,4 +89,32 @@ public class MinefieldTest {
 
         assertEquals(testField.getMines(), mineCount);
     }
+    
+    @Test
+    public void locationCheckerRecognizesWrongCoordinates() {
+        assertFalse(testField.locationIsInsideMatrixBorders(-1, 2));
+        assertFalse(testField.locationIsInsideMatrixBorders(2, testField.getHeight()));
+        assertFalse(testField.locationIsInsideMatrixBorders(testField.getWidth(), 0));
+        assertFalse(testField.locationIsInsideMatrixBorders(5, -1));
+    }
+    
+    @Test
+    public void locationCheckerRecognizesCorrectCoordinates() {
+        assertTrue(testField.locationIsInsideMatrixBorders(0, 9));
+        assertTrue(testField.locationIsInsideMatrixBorders(9, 0));
+    }
+    
+    //Kesken
+//    @Test
+//    public void calculatesAdjacentMinesCorrectly() {
+//        Minefield anotherField = new Minefield (10,10, 0);
+//        Cell testCell = anotherField.getCell(2, 3);
+//        
+//        anotherField.getCell(1, 3).setMine();
+//        anotherField.getCell(3, 3).setMine();
+//        anotherField.getCell(2, 4).setMine();
+//        
+//        anotherField.IncreaceMineCountForAdjacentCells(testCell, 2, 3);
+//        assertEquals(3, testCell.getAdjacentMineCount());
+//    }
 }

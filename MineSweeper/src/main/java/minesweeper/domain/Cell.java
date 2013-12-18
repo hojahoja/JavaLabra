@@ -17,14 +17,14 @@ public class Cell {
     //Onko solua avattu
     private boolean open;
     
-    //solu tuntee vierussolut
-    private LinkedList<Cell> adjacentMines;
+    //solu tietää monta miinaa sen veiressä on
+    private int adjacentMines;
 
     public Cell() {
         this.mine = false;
         this.flagged = false;
         this.open = false;
-        this.adjacentMines = new LinkedList<>();
+        this.adjacentMines = 0;
     }
     
     public boolean isFlagged() {
@@ -65,7 +65,11 @@ public class Cell {
         }
     }
 
-    public LinkedList<Cell> getAdjacentMines() {
+    public int getAdjacentMineCount() {
         return this.adjacentMines;
+    }
+    
+    public void increaseAdjacentMineCount() {
+        this.adjacentMines++;
     }
 }

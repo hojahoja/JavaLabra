@@ -1,1 +1,29 @@
-Work in Progress
+﻿Package: domain
+
+  Cell:	pelin perus soluLuokka
+	
+  MineField: Pelin kenttä. Konstruktoriin voi antaa miinakentän leveyden 			korkeuden, sekä miinojen määrän
+
+
+  StopWatch: Olio joka ottaa aikaa pelin kulusta.
+
+  ScoreKeeper: Olio pitää kirjaa parhaista ajoista tekstitiedostossa ja käyttää 		ajanottoa varten StopWatch oliota
+ 
+
+Package: logic
+
+  GameLogic: Pelin logiikka olio/moottori. Toimii pelin sovelluslogiikkana. 
+		Käyttää olioita Scorekeeper ja MineField.
+
+Package: gui
+
+GUI:		Graafinen käyttöliittymä
+
+
+
+/////////////
+Ehkä jatkossa
+////////////
+
+Package: Sounds
+Package: SaveState

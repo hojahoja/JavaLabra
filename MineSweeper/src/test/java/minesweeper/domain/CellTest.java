@@ -36,9 +36,20 @@ public class CellTest
         assertFalse(testCell.isOpen());
     }
     
-    public void testInitialAdjacentMinesReturnsAEmptyLinkedList() {
+    public void testInitialAdjacentMineCountIsZero() {
         Cell testCell = new Cell();
-        assertEquals(new LinkedList<Cell>(), testCell.getAdjacentMines());
+        assertEquals(0, testCell.getAdjacentMineCount());
+    }
+    
+    public void testMineCountIncreacesProperly() {
+        Cell testCell = new Cell();
+        
+        testCell.increaseAdjacentMineCount();
+        assertEquals(1, testCell.getAdjacentMineCount());
+        
+        testCell.increaseAdjacentMineCount();
+        testCell.increaseAdjacentMineCount();
+        assertEquals(3, testCell.getAdjacentMineCount());
     }
     
     public void testSetOpenWorksenWhenNotFlaggedAndClosed() {

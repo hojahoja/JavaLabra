@@ -1,6 +1,7 @@
 package minesweeper.domain;
 
 import java.util.Random;
+import sun.security.util.Length;
 
 /**
  *
@@ -15,7 +16,8 @@ public class Minefield {
     private int mines;
 
     // Vakio Miinakenttä;
-    public Minefield() {
+    
+    public Minefield(int height, int width, int mines) {
         this.height = 10;
         this.width = 10;
         this.mines = 10;
@@ -55,9 +57,12 @@ public class Minefield {
         generateMines();
     }
     
-    // Arpoo paika x ja y miinakentän alueelta.
-    // Asettaa tyhjän solun miinaksi tai ei tee mitään jos solussa on jo miina
-    //looppi varmistaa, että solussa on haluttu määrä miinoja.
+    /** Arpoo paikat x ja y miinakentän alueelta.
+    *   Asettaa tyhjän solun miinaksi tai ei tee mitään jos solussa on jo miina
+    *   looppi varmistaa, että solussa on haluttu määrä miinoja.
+    *   kun miina on asetettu kutsutaan metodia, joka päivittää kasvattaa
+    *   vierussolujen vierusmiinalaskuria yhdellä
+    */
     private void generateMines() {
         Random rng = new Random();
         int hasMines = 0;
@@ -70,8 +75,25 @@ public class Minefield {
 
             if (currentCellHasNoMine) {
                 current.setMine();
+                IncreaceMineCountForAdjacentCells(current, x, y);
                 hasMines++;
             }
         }
+    }
+
+    //Kesken
+    public void IncreaceMineCountForAdjacentCells(Cell current, int x, int y) {
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                if (locationIsInsideMatrixBorders(x+j, y+i)) {
+                    getCell(x+j, y+i).increaseAdjacentMineCount();
+                }
+            }
+        }
+    }
+
+    
+    public boolean locationIsInsideMatrixBorders(int j, int i) {
+        return i > -1 && i < height && j > -1 && j < width; 
     }
 }
