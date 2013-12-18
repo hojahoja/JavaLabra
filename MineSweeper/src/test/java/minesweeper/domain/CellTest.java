@@ -1,4 +1,4 @@
-package minesweeper;
+package minesweeper.domain;
 
 import java.util.LinkedList;
 import junit.framework.Test;
@@ -85,5 +85,6 @@ public class CellTest
         testCell.toggleFlag();
         
         assertFalse(testCell.isFlagged());
-    }
+    }   
+    
 }

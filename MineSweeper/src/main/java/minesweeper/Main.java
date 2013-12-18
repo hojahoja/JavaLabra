@@ -1,5 +1,8 @@
 package minesweeper;
 
+import java.util.HashSet;
+import java.util.Random;
+
 /**
  * Hello world!
  *
@@ -7,6 +10,6 @@ package minesweeper;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("What's up");
+        System.out.println("Minesweeper9001");
     }
 }
