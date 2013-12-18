@@ -1,0 +1,7 @@
+16.12.13:
+Alkuluento ja eka deadline ~3h
+
+17.12.13: perusluokkia ja niiden testejä. Mavenin kanssa taistelua +
+En saanut pittiä toimimaan :(
+Failed to execute goal org.pitest:pitest-maven:0.30:mutationCoverage (default-cli) on project MineSweeper: Execution default-cli of goal org.pitest:pitest-maven:0.30:mutationCoverage failed: No mutations found. This probably means
+ there is an issue with either the supplied classpath or filters.

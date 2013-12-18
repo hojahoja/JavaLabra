@@ -1,0 +1,7 @@
+[Cell]-3..8[Cell]
+[Minefield]++-*[Cell]
+[ScoreKeeper]++-1[StopWatch]
+[GameLogic]-1[Minefield]
+[GameLogic]-1[Scorekeeper]
+[MineSweeperGUI]-[GameLogic]
+[MineSweeperGUI]-*[ActionListener]

@@ -11,7 +11,7 @@ public class Cell {
     //Määrittää onko solussa miinaa vai ei
     private boolean mine;
     
-    //Kertoo onko solua merkattu lipulla
+    //Kertoo onko solu merkattu lipulla
     private boolean flagged;
     
     //Onko solua avattu
