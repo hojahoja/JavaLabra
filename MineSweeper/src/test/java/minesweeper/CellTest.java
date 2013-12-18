@@ -10,7 +10,7 @@ import org.junit.Before;
 /**
  * Unit test for simple App.
  */
-public class MineSweeperTest
+public class CellTest
         extends TestCase {
 
     /**
@@ -18,7 +18,7 @@ public class MineSweeperTest
      *
      * @param testName name of the test case
      */
-    public MineSweeperTest(String testName) {
+    public CellTest(String testName) {
         super(testName);
     }
 
@@ -26,7 +26,7 @@ public class MineSweeperTest
      * @return the suite of tests being tested
      */
     public static Test suite() {
-        return new TestSuite(MineSweeperTest.class);
+        return new TestSuite(CellTest.class);
     }   
     
     public void testInitialBooleansAreFalse() {

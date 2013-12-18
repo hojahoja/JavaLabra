@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: minesweeper.MineSweeperTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.139 sec
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.082 sec

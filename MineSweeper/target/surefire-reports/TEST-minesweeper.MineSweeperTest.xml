@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.138" errors="0" skipped="0" tests="7" name="minesweeper.MineSweeperTest">
+<testsuite failures="0" time="0.081" errors="0" skipped="0" tests="7" name="minesweeper.MineSweeperTest">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-7-openjdk-i386/jre/lib/i386"/>
@@ -59,11 +59,11 @@
     <property name="sun.desktop" value="gnome"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase time="0.009" classname="minesweeper.MineSweeperTest" name="testInitialBooleansAreFalse"/>
+  <testcase time="0.013" classname="minesweeper.MineSweeperTest" name="testInitialBooleansAreFalse"/>
   <testcase time="0" classname="minesweeper.MineSweeperTest" name="testInitialAdjacentMinesReturnsAEmptyLinkedList"/>
   <testcase time="0" classname="minesweeper.MineSweeperTest" name="testSetOpenWorksenWhenNotFlaggedAndClosed"/>
   <testcase time="0" classname="minesweeper.MineSweeperTest" name="testSetOpenDoesNothingWhenCellIsFlaggedOrClosed"/>
   <testcase time="0" classname="minesweeper.MineSweeperTest" name="testSetMineTurnsMineBooleanToTrueAndOnlyTrue"/>
-  <testcase time="0.001" classname="minesweeper.MineSweeperTest" name="testToggleFlagTogglesFlagProperly"/>
+  <testcase time="0" classname="minesweeper.MineSweeperTest" name="testToggleFlagTogglesFlagProperly"/>
   <testcase time="0" classname="minesweeper.MineSweeperTest" name="testCannotFlagAnOpenCell"/>
 </testsuite>
