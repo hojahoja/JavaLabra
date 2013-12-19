@@ -2,6 +2,8 @@ package minesweeper;
 
 import java.util.HashSet;
 import java.util.Random;
+import minesweeper.domain.Cell;
+import minesweeper.domain.Minefield;
 
 /**
  * Hello world!

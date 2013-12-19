@@ -18,9 +18,9 @@ public class Minefield {
     // Vakio Miinakenttä;
     
     public Minefield(int height, int width, int mines) {
-        this.height = 10;
-        this.width = 10;
-        this.mines = 10;
+        this.height = height;
+        this.width = width;
+        this.mines = mines;
         this.field = new Cell[height][width];
         this.initializeMinefield();
     }
@@ -58,9 +58,9 @@ public class Minefield {
     }
     
     /** Arpoo paikat x ja y miinakentän alueelta.
-    *   Asettaa tyhjän solun miinaksi tai ei tee mitään jos solussa on jo miina
-    *   looppi varmistaa, että solussa on haluttu määrä miinoja.
-    *   kun miina on asetettu kutsutaan metodia, joka päivittää kasvattaa
+    *   Asettaa tyhjän solun miinaksi tai ei tee mitään, jos solussa on jo miina.
+    *   Looppi varmistaa, että solussa on haluttu määrä miinoja.
+    *   Kun miina on asetettu kutsutaan metodia, joka kasvattaa
     *   vierussolujen vierusmiinalaskuria yhdellä
     */
     private void generateMines() {
@@ -75,14 +75,16 @@ public class Minefield {
 
             if (currentCellHasNoMine) {
                 current.setMine();
-                IncreaceMineCountForAdjacentCells(current, x, y);
+                IncreaseMineCountForAdjacentCells(x, y);
                 hasMines++;
             }
         }
     }
 
-    //Kesken
-    public void IncreaceMineCountForAdjacentCells(Cell current, int x, int y) {
+    //Metodi käy läpi jokaisen miinoitetun solun vierussolun ja kutsuu
+    //metodia, joka varmistaa, että tarkistettavat koordinaatit eivät ole
+    //alueen ulkopuolella
+    public void IncreaseMineCountForAdjacentCells(int x, int y) {
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 if (locationIsInsideMatrixBorders(x+j, y+i)) {

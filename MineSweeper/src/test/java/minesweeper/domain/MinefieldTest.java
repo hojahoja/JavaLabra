@@ -17,9 +17,10 @@ import static org.junit.Assert.*;
  */
 public class MinefieldTest {
 
+    private Minefield testField;
+
     public MinefieldTest() {
     }
-    private Minefield testField;
 
     @BeforeClass
     public static void setUpClass() {
@@ -31,7 +32,7 @@ public class MinefieldTest {
 
     @Before
     public void setUp() {
-        testField = new Minefield(10,10,10);
+        testField = new Minefield(10, 10, 10);
     }
 
     @After
@@ -61,7 +62,6 @@ public class MinefieldTest {
                 assertEquals(testCell.getClass(), testField.getCell(j, i).getClass());
             }
         }
-
     }
 
     @Test
@@ -89,7 +89,7 @@ public class MinefieldTest {
 
         assertEquals(testField.getMines(), mineCount);
     }
-    
+
     @Test
     public void locationCheckerRecognizesWrongCoordinates() {
         assertFalse(testField.locationIsInsideMatrixBorders(-1, 2));
@@ -97,24 +97,24 @@ public class MinefieldTest {
         assertFalse(testField.locationIsInsideMatrixBorders(testField.getWidth(), 0));
         assertFalse(testField.locationIsInsideMatrixBorders(5, -1));
     }
-    
+
     @Test
     public void locationCheckerRecognizesCorrectCoordinates() {
         assertTrue(testField.locationIsInsideMatrixBorders(0, 9));
         assertTrue(testField.locationIsInsideMatrixBorders(9, 0));
     }
-    
-    //Kesken
-//    @Test
-//    public void calculatesAdjacentMinesCorrectly() {
-//        Minefield anotherField = new Minefield (10,10, 0);
-//        Cell testCell = anotherField.getCell(2, 3);
-//        
-//        anotherField.getCell(1, 3).setMine();
-//        anotherField.getCell(3, 3).setMine();
-//        anotherField.getCell(2, 4).setMine();
-//        
-//        anotherField.IncreaceMineCountForAdjacentCells(testCell, 2, 3);
-//        assertEquals(3, testCell.getAdjacentMineCount());
-//    }
+
+    @Test
+    public void calculatesAdjacentMinesCorrectly() {
+        Minefield anotherField = new Minefield(10, 10, 0);
+        Cell testCell1 = anotherField.getCell(1, 1);
+        Cell testCell2 = anotherField.getCell(2, 0);
+        
+        anotherField.IncreaseMineCountForAdjacentCells(0, 0);
+        anotherField.IncreaseMineCountForAdjacentCells(0, 1);
+        anotherField.IncreaseMineCountForAdjacentCells(1, 0);
+        
+        assertEquals(3, testCell1.getAdjacentMineCount());
+        assertEquals(1, testCell2.getAdjacentMineCount());
+    }
 }
