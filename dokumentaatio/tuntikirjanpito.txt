@@ -1,5 +1,5 @@
-16.12.13:
-Alkuluento ja eka deadline ~3h
+16.12.13: ~3h
+Alkuluento ja eka deadline
 
 17.12.13: 3-4h
 
@@ -13,3 +13,9 @@ This probably means there is an issue with either the supplied classpath or filt
 
 18.12.13: 3h
 Pitti ja cobertura toimii. Lisää testejä metodeja pariin luokkaan + Lokkakaavio
+
+19.12.13:  1h
+viimeistelyä testien parantelua.
+
+20.12.13: 2h
+Guin alkuvaiheet.

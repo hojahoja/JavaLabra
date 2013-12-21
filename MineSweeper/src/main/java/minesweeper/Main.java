@@ -7,10 +7,6 @@ import minesweeper.domain.Cell;
 import minesweeper.domain.Minefield;
 import minesweeper.gui.GameGui;
 
-/**
- * Hello world!
- *
- */
 public class Main {
 
     public static void main(String[] args) {
