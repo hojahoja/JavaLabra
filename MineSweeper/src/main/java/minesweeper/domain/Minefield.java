@@ -9,8 +9,10 @@ import sun.security.util.Length;
  */
 public class Minefield {
 
-    // Kaksiuloinen taulukko, joka toimii miinakentän runkona
+    // Kaksiuloinen taulukko(matriisi), joka toimii miinakentän runkona
     private Cell[][] field;
+    
+    // Kentän, matriisin kokoon ja miinojen määrään liittyvää tietoa.
     private int height;
     private int width;
     private int mines;

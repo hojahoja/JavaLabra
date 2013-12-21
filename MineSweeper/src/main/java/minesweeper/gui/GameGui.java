@@ -17,8 +17,15 @@ import minesweeper.domain.Minefield;
  */
 public class GameGui implements Runnable {
 
+    
+    // tulee sisältämään Guin näkyvät komponentit
     private JFrame frame;
+    
+    //Game Gui tuntee Minefield olion
     private Minefield minefield;
+    
+    // Matriisi, joka sisältää miinakentän solujen graafisen ilmentymän.
+    // Kaikki Solujen sisältöön kuuluva tieto löytyy MineField luokan omasta matriisista.
     private JButton fieldButtons[][];
 
     public GameGui() {
@@ -40,20 +47,21 @@ public class GameGui implements Runnable {
     private void createComponents(Container contentPane) {
         JPanel mainWindow = new JPanel();
         mainWindow.setLayout(new BoxLayout(mainWindow, BoxLayout.Y_AXIS));
-
-        JPanel mineFieldCells = createMineFieldCells();
-
-        mainWindow.add(mineFieldCells);
         
+        GameListener gameListener = new GameListener(fieldButtons, minefield);
+        JPanel mineFieldCells = createMineFieldCells(gameListener);
+
+        
+        mainWindow.add(mineFieldCells);        
         contentPane.add(mainWindow);
     }
 
-    private JPanel createMineFieldCells() {
+    private JPanel createMineFieldCells(GameListener gameListener) {
         int height = minefield.getHeight();
         int width = minefield.getWidth();
         JPanel mineFieldCells = new JPanel(new GridLayout(height, width));
         
-        createMineFieldButtons(height, width);
+        createMineFieldButtons(height, width, gameListener);
         
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -64,17 +72,22 @@ public class GameGui implements Runnable {
         return  mineFieldCells;
     }
 
-    private void createMineFieldButtons(int height, int width) {
+    // Luo JButton oliot matriisin sisälle
+    // Samalla lisätään napeille hiiren kuuntelija.
+    private void createMineFieldButtons(int height, int width, GameListener gameListener) {
         
         fieldButtons = new JButton[height][width];
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                fieldButtons[i][j] = new JButton("");
+                fieldButtons[i][j] = new JButton(" ");
             }
-        }
+        }        
+        addListenerToButtons(height, width, gameListener);
     }
-
+    
+    
+    // perus getterit alkaa tästä.
     public JFrame getFrame() {
         return frame;
     }
@@ -85,5 +98,13 @@ public class GameGui implements Runnable {
 
     public JButton[][] getFieldButtons() {
         return fieldButtons;
+    }
+
+    private void addListenerToButtons(int height, int width, GameListener gameListener) {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                fieldButtons[i][j].addMouseListener(gameListener);
+            }
+        }
     }
 }
