@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import minesweeper.domain.Minefield;
+import minesweeper.logic.GameLogic;
 
 /**
  *
@@ -17,19 +18,16 @@ import minesweeper.domain.Minefield;
  */
 public class GameGui implements Runnable {
 
-    
     // tulee sisältämään Guin näkyvät komponentit
     private JFrame frame;
     
-    //Game Gui tuntee Minefield olion
-    private Minefield minefield;
-    
+    private GameLogic gameLogic;
     // Matriisi, joka sisältää miinakentän solujen graafisen ilmentymän.
     // Kaikki Solujen sisältöön kuuluva tieto löytyy MineField luokan omasta matriisista.
     private JButton fieldButtons[][];
 
     public GameGui() {
-        minefield = new Minefield(10, 10, 10);
+        gameLogic = new GameLogic(10, 10, 10);
     }
 
     @Override
@@ -47,60 +45,59 @@ public class GameGui implements Runnable {
     private void createComponents(Container contentPane) {
         JPanel mainWindow = new JPanel();
         mainWindow.setLayout(new BoxLayout(mainWindow, BoxLayout.Y_AXIS));
-        
-        GameListener gameListener = new GameListener(fieldButtons, minefield);
-        JPanel mineFieldCells = createMineFieldCells(gameListener);
 
-        
-        mainWindow.add(mineFieldCells);        
+        JPanel mineFieldCells = createMineFieldCells();
+
+        mainWindow.add(mineFieldCells);
         contentPane.add(mainWindow);
     }
 
-    private JPanel createMineFieldCells(GameListener gameListener) {
-        int height = minefield.getHeight();
-        int width = minefield.getWidth();
+    private JPanel createMineFieldCells() {
+        int height = gameLogic.getFieldHeight();
+        int width = gameLogic.getFieldWidth();
         JPanel mineFieldCells = new JPanel(new GridLayout(height, width));
-        
-        createMineFieldButtons(height, width, gameListener);
-        
+
+        createMineFieldButtons(height, width);
+
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 mineFieldCells.add(fieldButtons[i][j]);
             }
         }
-        
-        return  mineFieldCells;
+
+        addAMouseListenerToButtons(height, width);
+        return mineFieldCells;
     }
 
     // Luo JButton oliot matriisin sisälle
     // Samalla lisätään napeille hiiren kuuntelija.
-    private void createMineFieldButtons(int height, int width, GameListener gameListener) {
-        
+    private void createMineFieldButtons(int height, int width) {
+
         fieldButtons = new JButton[height][width];
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 fieldButtons[i][j] = new JButton(" ");
             }
-        }        
-        addListenerToButtons(height, width, gameListener);
+        }
     }
-    
-    
+
     // perus getterit alkaa tästä.
     public JFrame getFrame() {
         return frame;
-    }
-
-    public Minefield getMinefield() {
-        return minefield;
     }
 
     public JButton[][] getFieldButtons() {
         return fieldButtons;
     }
 
-    private void addListenerToButtons(int height, int width, GameListener gameListener) {
+    private void addAListenerToButtons() {
+        
+    }
+
+    private void addAMouseListenerToButtons(int height, int width) {
+        GameListener gameListener = new GameListener(fieldButtons, gameLogic);
+        
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 fieldButtons[i][j].addMouseListener(gameListener);
