@@ -1,9 +1,0 @@
-Aihe: Miineharava
-Näin aluksi tarkoituksena on toteuttaa 10x10 miinaharava.pelaaja voittaa pelin kun kaikki ruudukoissa olevat miinat on merkitty ja 
-
-Käyttäjät: Pelaaja
-
-Toiminnot:
-  * Ruudun avaaminen
-      -Merkittyä ruutua ei voi avata
-  * Miinan Merkitseminen
