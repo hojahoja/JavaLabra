@@ -19,3 +19,8 @@ viimeistelyä testien parantelua.
 
 20.12.13: 2h
 Guin alkuvaiheet.
+
+21.12.13: 5h
+lisätty perustoiminallisuutta, Guihin, logiikkaan ja kirjoitettu testejä.
+Piti palautella mieleen miten graafinen käyttis oikein toimiikaan.
+tehty "paintilla" aivan uskomattoman upeat kuvat JButtoneita varten.

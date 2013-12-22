@@ -75,11 +75,26 @@ public class GameListener implements MouseListener {
     private void updateWindow(int height, int width) {      
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                boolean cellIsOpen = gameLogic.getMinefield().getCell(j, i).isOpen();
-                if (cellIsOpen) {
-                    fieldButtons[i][j].setEnabled(false);
-                }
+                checkButtonCondition(j, i);
             }
         }
+    }
+
+    private void checkButtonCondition(int j, int i) {
+        openedStatusUpdate(j, i);
+        flaggedStatusUpdate(j, i);
+        
+        
+    }
+
+    private void openedStatusUpdate(int j, int i) {
+        boolean cellIsOpen = gameLogic.getMinefield().getCell(j, i).isOpen();
+        if (cellIsOpen) {
+            fieldButtons[i][j].setEnabled(false);
+        }
+    }
+
+    private void flaggedStatusUpdate(int j, int i) {
+        
     }
 }
