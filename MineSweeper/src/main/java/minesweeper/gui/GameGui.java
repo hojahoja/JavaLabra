@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -74,6 +75,8 @@ public class GameGui implements Runnable {
 
     // Luo JButton oliot matriisin sisälle
     // Samalla lisätään napeille hiiren kuuntelija.
+    // alustaa Jbutton tyhjällä png:llä muuten Jbuttoni ei tunnista
+    // Jos default iconia ei ole asetettu Jbutton ei tunnista disabled iconia.
     private void createMineFieldButtons(int height, int width) {
 
         fieldButtons = new JButton[height][width];
@@ -81,6 +84,8 @@ public class GameGui implements Runnable {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 fieldButtons[i][j] = new JButton(" ");
+                fieldButtons[i][j].setMargin(new Insets(0, 0, 0, 0));
+                fieldButtons[i][j].setIcon(fileContainer.getEmptyIcon());
             }
         }
     }
@@ -98,7 +103,7 @@ public class GameGui implements Runnable {
     }
 
     private void addAMouseListenerToButtons(int height, int width) {
-        GameListener gameListener = new GameListener(fieldButtons, gameLogic);
+        GameListener gameListener = new GameListener(fieldButtons, gameLogic, fileContainer);
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {

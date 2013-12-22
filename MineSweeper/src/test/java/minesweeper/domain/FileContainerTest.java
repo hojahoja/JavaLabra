@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package minesweeper.domain;
 
 import org.junit.After;
@@ -48,6 +44,23 @@ public class FileContainerTest {
     
     @Test
     public void flagIconIsFound() {
+        ImageIcon comparison = new ImageIcon("src/main/resources/Flag.png");
+        ImageIcon testIcon = testContainer.getFlagIcon();        
+        assertEquals(comparison.getImage(), testIcon.getImage());
+    }
+    
+    @Test
+    public void bombIconIsFound() {
+        ImageIcon comparison = new ImageIcon("src/main/resources/Bomb.png");
+        ImageIcon testIcon = testContainer.getBombIcon();        
+        assertEquals(comparison.getImage(), testIcon.getImage());
+    }
+    
+    @Test
+    public void emptyIconIsFound() {
+        ImageIcon comparison = new ImageIcon("src/main/resources/Empty.png");
+        ImageIcon testIcon = testContainer.getEmptyIcon();        
+        assertEquals(comparison.getImage(), testIcon.getImage());
     }
     
     

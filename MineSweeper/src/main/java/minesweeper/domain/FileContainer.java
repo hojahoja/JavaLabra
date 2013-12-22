@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package minesweeper.domain;
 
 import java.io.File;
@@ -16,11 +12,13 @@ public class FileContainer {
     private File scoreFile;
     private ImageIcon flagIcon;
     private ImageIcon bombIcon;
+    private ImageIcon emptyIcon;
 
     public FileContainer() {
         this.scoreFile = setUpTextFile();
         this.flagIcon = setUpFlagIcon();
         this.bombIcon = setUpBombIcon();
+        this.emptyIcon = setUpEmptyIcon();
     }
 
     private File setUpTextFile() {
@@ -35,6 +33,10 @@ public class FileContainer {
         return new ImageIcon("src/main/resources/Bomb.png");
     }
 
+    private ImageIcon setUpEmptyIcon() {
+        return new ImageIcon("src/main/resources/Empty.png");
+    }
+
     public File getScoreFile() {
         return scoreFile;
     }
@@ -45,5 +47,9 @@ public class FileContainer {
 
     public ImageIcon getBombIcon() {
         return bombIcon;
+    }
+
+    public ImageIcon getEmptyIcon() {
+        return emptyIcon;
     }
 }

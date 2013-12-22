@@ -20,6 +20,10 @@ public class GameLogic {
     public void openCell(int x, int y) {
         minefield.getCell(x, y).setOpen();
     }
+    
+    public void toggleCellFlag(int x, int y) {
+        minefield.getCell(x, y).toggleFlag();
+    }
 
     public Minefield getMinefield() {
         return minefield;

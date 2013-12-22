@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package minesweeper.logic;
 
 import static junit.framework.Assert.assertFalse;
@@ -66,5 +62,18 @@ public class GameLogicTest {
         
         testGameLogic.openCell(3, 4);
         assertTrue(testCell.isOpen());
+    }
+    
+    @Test
+    public void ToggleCellFlagChangesFlaggedStatus() {
+        Cell testCell = testGameLogic.getMinefield().getCell(2, 3);
+        
+        assertFalse(testCell.isFlagged());
+        
+        testGameLogic.toggleCellFlag(2, 3);
+        assertTrue(testCell.isFlagged());
+        
+        testGameLogic.toggleCellFlag(2, 3);
+        assertFalse(testCell.isFlagged());
     }
 }

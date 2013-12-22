@@ -104,6 +104,7 @@ public class MinefieldTest {
         assertTrue(testField.locationIsInsideMatrixBorders(9, 0));
     }
 
+    // vaikea testata pitin haluamalla tavalla satunnaisuuden vuoksi.
     @Test
     public void calculatesAdjacentMinesCorrectly() {
         Minefield anotherField = new Minefield(10, 10, 0);
