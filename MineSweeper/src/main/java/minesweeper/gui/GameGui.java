@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import minesweeper.domain.FileContainer;
 import minesweeper.domain.Minefield;
 import minesweeper.logic.GameLogic;
 
@@ -20,13 +21,15 @@ public class GameGui implements Runnable {
 
     // tulee sisältämään Guin näkyvät komponentit
     private JFrame frame;
-    
     private GameLogic gameLogic;
     // Matriisi, joka sisältää miinakentän solujen graafisen ilmentymän.
     // Kaikki Solujen sisältöön kuuluva tieto löytyy MineField luokan omasta matriisista.
     private JButton fieldButtons[][];
+    // Siältää JButton iconit ja mahdolliset tallennustiedostot.
+    private FileContainer fileContainer;
 
     public GameGui() {
+        fileContainer = new FileContainer();
         gameLogic = new GameLogic(10, 10, 10);
     }
 
@@ -92,12 +95,11 @@ public class GameGui implements Runnable {
     }
 
     private void addAListenerToButtons() {
-        
     }
 
     private void addAMouseListenerToButtons(int height, int width) {
         GameListener gameListener = new GameListener(fieldButtons, gameLogic);
-        
+
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 fieldButtons[i][j].addMouseListener(gameListener);

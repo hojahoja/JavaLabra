@@ -8,6 +8,9 @@
   StopWatch: Olio joka ottaa aikaa pelin kulusta.
 
   ScoreKeeper: Olio pitää kirjaa parhaista ajoista tekstitiedostossa ja käyttää 		ajanottoa varten StopWatch oliota
+
+  FileContainer: Olio hakee ja ottaa käyttövalmiiksi tarvittavat koodin
+		ulkopuoliset tiedostot. tiedostoja haetaan gettereillä.
  
 
 Package: logic

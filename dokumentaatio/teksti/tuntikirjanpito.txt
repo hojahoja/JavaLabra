@@ -2,7 +2,6 @@
 Alkuluento ja eka deadline
 
 17.12.13: 3-4h
-
 perusluokkia ja niiden testejä. Mavenin kanssa taistelua +
 
 En saanut pittiä toimimaan :(
@@ -24,3 +23,7 @@ Guin alkuvaiheet.
 lisätty perustoiminallisuutta, Guihin, logiikkaan ja kirjoitettu testejä.
 Piti palautella mieleen miten graafinen käyttis oikein toimiikaan.
 tehty "paintilla" aivan uskomattoman upeat kuvat JButtoneita varten.
+
+22.12.13 5h
+Deadline 3 + Lisää testejä ja ikonien kanssa säätämistä. 
+Keksitty FileContainer luokka.
