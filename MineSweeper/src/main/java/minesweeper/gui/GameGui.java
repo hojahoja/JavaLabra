@@ -84,10 +84,22 @@ public class GameGui implements Runnable {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 fieldButtons[i][j] = new JButton(" ");
-                fieldButtons[i][j].setMargin(new Insets(0, 0, 0, 0));
-                fieldButtons[i][j].setIcon(fileContainer.getEmptyIcon());
+                setMineFieldIcons(i, j);
             }
         }
+    }
+
+    private void setMineFieldIcons(int i, int j) {
+        JButton button = fieldButtons[i][j];
+        boolean cellHasAMine = gameLogic.getMinefield().getCell(j, i).isMine();
+        
+        button.setMargin(new Insets(0, 0, 0, 0));
+        button.setIcon(fileContainer.getEmptyIcon());
+        
+        if (cellHasAMine) {
+            button.setDisabledIcon(fileContainer.getBombIcon());
+        }
+        
     }
 
     // perus getterit alkaa tästä.
