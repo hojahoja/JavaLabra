@@ -1,5 +1,6 @@
 package minesweeper.gui;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -93,9 +94,47 @@ public class GameListener implements MouseListener {
 
     private void openedStatusUpdate(int j, int i) {
         boolean cellIsOpen = gameLogic.getMinefield().getCell(j, i).isOpen();
-        
+        boolean cellHasNoMine = !gameLogic.getMinefield().getCell(j, i).isMine();
         if (cellIsOpen) {
-            fieldButtons[i][j].setEnabled(false);
+            JButton current = fieldButtons[i][j];
+            if (cellHasNoMine) {
+                setMineAdjacentMineInfo(j, i, current);
+            } else {
+                current.setEnabled(false);
+            }
+        }
+    }
+
+    private void setMineAdjacentMineInfo(int j, int i, JButton current) {
+        int mineCount = gameLogic.getMinefield().getCell(j, i).getAdjacentMineCount();
+
+        if (mineCount > 0) {
+            Color color = getNumberColor(mineCount);
+            current.setText(mineCount + "");
+            current.setForeground(color);
+        }
+
+        current.setBackground(Color.WHITE);
+    }
+
+    private Color getNumberColor(int mineCount) {
+        switch (mineCount) {
+            case 1:
+                return new Color(25, 25, 255); // light blue
+            case 2:
+                return Color.GREEN;
+            case 3:
+                return Color.RED;
+            case 4:
+                return new Color(0, 0, 153); // dark blue
+            case 5:
+                return new Color(178, 16, 16); // brown
+            case 6:
+                return Color.CYAN;
+            case 7:
+                return Color.BLACK;
+            default:
+                return Color.GRAY;
         }
     }
 
@@ -106,7 +145,7 @@ public class GameListener implements MouseListener {
 
         if (cellHasAFlag) {
             fieldButtons[i][j].setIcon(flagIcon);
-        }         else {
+        } else {
             if (cellHasFlagIcon) {
                 fieldButtons[i][j].setIcon(fileContainer.getEmptyIcon());
             }
