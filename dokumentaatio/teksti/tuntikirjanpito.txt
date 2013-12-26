@@ -27,3 +27,8 @@ tehty "paintilla" aivan uskomattoman upeat kuvat JButtoneita varten.
 22.12.13 5h
 Deadline 3 + Lisää testejä ja ikonien kanssa säätämistä. 
 Keksitty FileContainer luokka.
+
+25-26.12.13 (aamyö) 3h
+Numerot ja värit asetettu. Peliä voi käytänössä jo pelata
+se ei vain vielä tiedä voititko vai hävisitkö. Uskaltaiskohan tätä sanoa jo
+alphaksi?
