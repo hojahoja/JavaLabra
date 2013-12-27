@@ -31,7 +31,7 @@ public class GameGui implements Runnable {
 
     public GameGui() {
         fileContainer = new FileContainer();
-        gameLogic = new GameLogic(10, 10, 50);
+        gameLogic = new GameLogic(10, 10, 10);
     }
 
     @Override

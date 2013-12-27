@@ -8,18 +8,26 @@ import java.util.LinkedList;
  */
 public class Cell {
     
-    //Määrittää onko solussa miinaa vai ei
+    /**
+     * Is the cell mined.
+     */
     private boolean mine;
     
-    //Kertoo onko solu merkattu lipulla
+    /**
+     * Is the cell flagged.
+     */
     private boolean flagged;
     
-    //Onko solua avattu
+    /**
+     * Is the cell open.
+     */
     private boolean open;
     
-    //solu tietää monta miinaa sen veiressä on
     private int adjacentMines;
-
+    
+    /**
+     * Minefield class uses Cell to store information. 
+     */
     public Cell() {
         this.mine = false;
         this.flagged = false;
@@ -27,19 +35,35 @@ public class Cell {
         this.adjacentMines = 0;
     }
     
+    /**
+     * 
+     * @return Cells flagged status.
+     */
     public boolean isFlagged() {
         return flagged;
     }
-
+    
+    /**
+     * 
+     * @return Does the cell have a mine.
+     */
     public boolean isMine() {
         return mine;
     }
 
+    /**
+     * 
+     * @return Is the cell open.
+     */
     public boolean isOpen() {
         return open;
     }
 
-    // Avaa solun. Avattua solua ei voi sulkea.
+    /**
+     * Sets the Cells open status to true.
+     * 
+     * Does nothing if the Cell is flagged or already opened.
+     */
     public void setOpen() {
         boolean hasNoFlagAndIsClosed = !this.flagged && !this.open;
         
@@ -48,12 +72,18 @@ public class Cell {
         }
     }
 
-    //aseta miinan soluun. Miinaa ei tarvitse poistaa
+    /**
+     * Set the Cells mine status to true.
+     */
     public void setMine() {
         this.mine = true;
     }
     
-    // Jos ruutu on avoin metodi muuttaa liputuksen tilaa
+    /**
+     * Toggles the cells flag status.
+     * If the cell is flagged it will remove the flag.
+     * If the cell is not flagged it will flag it.
+     */
     public void toggleFlag() {
         boolean CellIsClosed = !this.open;
         if (CellIsClosed) {
@@ -69,6 +99,11 @@ public class Cell {
         return this.adjacentMines;
     }
     
+    /**
+     * Increases the known amount of adjacent mines.
+     * 
+     * Used by minefield class.
+     */
     public void increaseAdjacentMineCount() {
         this.adjacentMines++;
     }

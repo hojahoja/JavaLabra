@@ -9,16 +9,25 @@ import sun.security.util.Length;
  */
 public class Minefield {
 
-    // Kaksiuloinen taulukko(matriisi), joka toimii miinakentän runkona
+    /**
+     * A 2D array that's contains all the cells created by the Minefield class.
+     */
     private Cell[][] field;
-    
-    // Kentän, matriisin kokoon ja miinojen määrään liittyvää tietoa.
+    /**
+     * Basic information about the Minefield.
+     */
     private int height;
     private int width;
     private int mines;
 
-    // Vakio Miinakenttä;
-    
+    /**
+     * Creates the minefield. creates a new instance of Cell[][] and calls
+     * initializeMinefield();
+     *
+     * @param height
+     * @param width
+     * @param mines
+     */
     public Minefield(int height, int width, int mines) {
         this.height = height;
         this.width = width;
@@ -43,13 +52,21 @@ public class Minefield {
         return field;
     }
 
-    //palauttaa yksittäisen solun koordinaateilla x,y
+    /**
+     * Get the specified cell.
+     *
+     * @param x
+     * @param y
+     * @return the cell in the point (x.y) of the 2D array
+     */
     public Cell getCell(int x, int y) {
         return this.field[y][x];
     }
 
-    //Täyttää kentän soluilla ja kutsuu metodia,
-    //joka arpoo taulun miinat
+    /**
+     * Creates the cell inside the minefield class and calls a method to place
+     * the mines.
+     */
     private void initializeMinefield() {
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
@@ -58,13 +75,13 @@ public class Minefield {
         }
         generateMines();
     }
-    
-    /** Arpoo paikat x ja y miinakentän alueelta.
-    *   Asettaa tyhjän solun miinaksi tai ei tee mitään, jos solussa on jo miina.
-    *   Looppi varmistaa, että solussa on haluttu määrä miinoja.
-    *   Kun miina on asetettu kutsutaan metodia, joka kasvattaa
-    *   vierussolujen vierusmiinalaskuria yhdellä
-    */
+
+    /**
+     * Makes specified amount of Cells into mines randomly. Uses the Random
+     * class to generate a random point (x.y) and makes a cell at that point
+     * into a mine. The method will run until a specified amount of mines are 
+     * generated.
+     */
     private void generateMines() {
         Random rng = new Random();
         int hasMines = 0;
@@ -83,21 +100,31 @@ public class Minefield {
         }
     }
 
-    //Metodi käy läpi jokaisen miinoitetun solun vierussolun ja kutsuu
-    //metodia, joka varmistaa, että tarkistettavat koordinaatit eivät ole
-    //alueen ulkopuolella
+    /**
+     * Increases the mine count for adjacent Cells. Takes a mine at point (x.y)
+     * and Increases the mine count of each adjacent Cell.
+     * 
+     * @param x
+     * @param y 
+     */
     public void IncreaseMineCountForAdjacentCells(int x, int y) {
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                if (locationIsInsideMatrixBorders(x+j, y+i)) {
-                    getCell(x+j, y+i).increaseAdjacentMineCount();
+                if (locationIsInsideMatrixBorders(x + j, y + i)) {
+                    getCell(x + j, y + i).increaseAdjacentMineCount();
                 }
             }
         }
     }
 
-    
+    /**
+     * Makes sure that the given location does not outside 2D array.
+     * 
+     * @param j
+     * @param i
+     * @return Is the given location outside of borders.
+     */
     public boolean locationIsInsideMatrixBorders(int j, int i) {
-        return i > -1 && i < height && j > -1 && j < width; 
+        return i > -1 && i < height && j > -1 && j < width;
     }
 }
