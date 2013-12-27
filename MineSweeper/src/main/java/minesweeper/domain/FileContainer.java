@@ -18,7 +18,7 @@ public class FileContainer {
      * A class that locates the files in the resources folders and makes them
      * available trough getter methods.
      * 
-     * all the method calls create Class with a specified path to the file.
+     * all the method calls create a Class with a specified path to the file.
      */
     public FileContainer() {
         this.scoreFile = setUpTextFile();
