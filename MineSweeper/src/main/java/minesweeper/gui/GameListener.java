@@ -43,6 +43,13 @@ public class GameListener implements MouseListener {
     private GameLogic gameLogic;
     private FileContainer fileContainer;
 
+    /**
+     * The listener class of the game
+     *
+     * @param fieldButtons
+     * @param gameLogic
+     * @param fileContainer
+     */
     public GameListener(JButton[][] fieldButtons, GameLogic gameLogic, FileContainer fileContainer) {
         this.fieldButtons = fieldButtons;
         this.gameLogic = gameLogic;
@@ -64,6 +71,14 @@ public class GameListener implements MouseListener {
         updateWindow(height, width);
     }
 
+    /**
+     * Searches for the coordinates (x.y) of the clicked JButton.
+     *
+     * @param height
+     * @param width
+     * @param source the JButton that was clicked.
+     * @return
+     */
     private Point getClickedButtonCoordinates(int height, int width, Object source) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -77,35 +92,55 @@ public class GameListener implements MouseListener {
         return null;
     }
 
+    /**
+     * Goes trough all of the JButtons and calls two methods that update the the
+     * GUI.
+     *
+     * @param height
+     * @param width
+     */
     private void updateWindow(int height, int width) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                checkButtonCondition(j, i);
+                openedStatusUpdate(j, i);
+                flaggedStatusUpdate(j, i);
             }
         }
     }
 
-    private void checkButtonCondition(int j, int i) {
-        openedStatusUpdate(j, i);
-        flaggedStatusUpdate(j, i);
-
-
-    }
-
+    /**
+     * Updates the JButtons that are set open in their corresponding Cell
+     * classes. Does nothing if the cell is closed. If the cell has a mine the
+     * button is disabled which reveals the bomb icon. If the cell does not have
+     * a mine setAdjacentMineInfo method is called.
+     *
+     * @param j
+     * @param i
+     */
     private void openedStatusUpdate(int j, int i) {
         boolean cellIsOpen = gameLogic.getMinefield().getCell(j, i).isOpen();
         boolean cellHasNoMine = !gameLogic.getMinefield().getCell(j, i).isMine();
         if (cellIsOpen) {
             JButton current = fieldButtons[i][j];
+
             if (cellHasNoMine) {
-                setMineAdjacentMineInfo(j, i, current);
+                setAdjacentMineInfo(j, i, current);
             } else {
                 current.setEnabled(false);
             }
         }
     }
 
-    private void setMineAdjacentMineInfo(int j, int i, JButton current) {
+    /**
+     * Reveals the number of adjacent mines. Calls a method to color the number
+     * of adjacent mines shown in the game. If there are no adjacent mines it
+     * will only color the JButton to signify it's opened status.
+     *
+     * @param j
+     * @param i
+     * @param current
+     */
+    private void setAdjacentMineInfo(int j, int i, JButton current) {
         int mineCount = gameLogic.getMinefield().getCell(j, i).getAdjacentMineCount();
 
         if (mineCount > 0) {
@@ -117,6 +152,12 @@ public class GameListener implements MouseListener {
         current.setBackground(Color.WHITE);
     }
 
+    /**
+     * Chooses a proper color for the specified mine count.
+     *
+     * @param mineCount
+     * @return the Color chosen to for a specific number.
+     */
     private Color getNumberColor(int mineCount) {
         switch (mineCount) {
             case 1:
@@ -138,6 +179,15 @@ public class GameListener implements MouseListener {
         }
     }
 
+    /**
+     * Toggles if the flag icon is shown in the game. Toggles between an empty
+     * icon or a flag icon depending on the flagged status of the cell. Does
+     * nothing if the cell is opened.
+     *
+     *
+     * @param j
+     * @param i
+     */
     private void flaggedStatusUpdate(int j, int i) {
         ImageIcon flagIcon = fileContainer.getFlagIcon();
         boolean cellHasAFlag = gameLogic.getMinefield().getCell(j, i).isFlagged();

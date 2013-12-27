@@ -14,6 +14,12 @@ public class FileContainer {
     private ImageIcon bombIcon;
     private ImageIcon emptyIcon;
 
+    /**
+     * A class that locates the files in the resources folders and makes them
+     * available trough getter methods.
+     * 
+     * all the method calls create Class with a specified path to the file.
+     */
     public FileContainer() {
         this.scoreFile = setUpTextFile();
         this.flagIcon = setUpFlagIcon();

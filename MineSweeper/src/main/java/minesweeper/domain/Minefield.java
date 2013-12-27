@@ -118,7 +118,7 @@ public class Minefield {
     }
 
     /**
-     * Makes sure that the given location does not outside 2D array.
+     * Makes sure that the given location does not go outside of the 2D array.
      * 
      * @param j
      * @param i
