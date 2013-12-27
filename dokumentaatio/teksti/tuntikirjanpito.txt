@@ -1,3 +1,7 @@
+Kaikki ajat ovat arvioita työmäärästä sillä samalla on "multitaskattu"
+kaikkea muutakin ja todellisuudessa koneen ääressä on istuttu pitempään...
+
+
 16.12.13: ~3h
 Alkuluento ja eka deadline
 
@@ -32,3 +36,7 @@ Keksitty FileContainer luokka.
 Numerot ja värit asetettu. Peliä voi käytänössä jo pelata
 se ei vain vielä tiedä voititko vai hävisitkö. Uskaltaiskohan tätä sanoa jo
 alphaksi?
+
+26.12.13 3h
+JavaDocia ja logiikkaa + testejä.
+
