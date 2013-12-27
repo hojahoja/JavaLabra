@@ -56,6 +56,11 @@ public class GameLogicTest {
     }
     
     @Test
+    public void flaggedCellsIsEmptyAtFirst() {
+        assertTrue(testGameLogic.getFlaggedCells().isEmpty());
+    }
+    
+    @Test
     public void openCellMethodOpensTheCorrectCell() {
         Minefield testField = testGameLogic.getMinefield();
         Cell testCell = testField.getCell(3, 4);
@@ -75,5 +80,31 @@ public class GameLogicTest {
         
         testGameLogic.toggleCellFlag(2, 3);
         assertFalse(testCell.isFlagged());
+    }
+    
+    @Test
+    public void ToggleCellFlagAddsCellsToFlaggedCellsHashMap() {
+        testGameLogic.toggleCellFlag(2, 5);
+        testGameLogic.toggleCellFlag(6, 2);
+        
+        Cell testCell1 = testGameLogic.getMinefield().getCell(2, 5);
+        Cell testCell2 = testGameLogic.getMinefield().getCell(6, 2);
+        
+        assertTrue(testGameLogic.getFlaggedCells().containsKey(testCell1));
+        assertTrue(testGameLogic.getFlaggedCells().containsKey(testCell2));
+    }
+    
+    @Test
+    public void ToggleCellFlagsRemovesCellsFromFlaggedCellsHashMap() {
+        testGameLogic.toggleCellFlag(5, 4);
+        testGameLogic.toggleCellFlag(5, 4);
+        testGameLogic.toggleCellFlag(3, 2);
+        testGameLogic.toggleCellFlag(3, 2);
+        
+        Cell testCell1 = testGameLogic.getMinefield().getCell(5, 4);
+        Cell testCell2 = testGameLogic.getMinefield().getCell(3, 2);
+        
+        assertFalse(testGameLogic.getFlaggedCells().containsKey(testCell1));
+        assertFalse(testGameLogic.getFlaggedCells().containsKey(testCell2));
     }
 }
