@@ -1,8 +1,12 @@
 package minesweeper.logic;
 
 import java.awt.Point;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.PriorityQueue;
+import java.util.Set;
 import minesweeper.domain.Cell;
 import minesweeper.domain.Minefield;
 
@@ -16,10 +20,12 @@ public class GameLogic {
     private HashMap<Cell, Point> flaggedCells;
     private int fieldHeight;
     private int fieldWidth;
+    private boolean gameWon;
+    private boolean gameLost;
 
     /**
      * The logic class of the game. The constructor takes the specified
-     * parameters and creates a minefield class, which is used to store
+     * parameters and creates the minefield class, which is used to store
      * information about the game
      *
      * @param height
@@ -31,10 +37,13 @@ public class GameLogic {
         this.flaggedCells = new HashMap<>();
         this.fieldHeight = height;
         this.fieldWidth = width;
+        this.gameWon = false;
+        this.gameLost = false;
     }
 
     /**
-     * Opens a cell at point (x.y).
+     * Opens a cell at point (x.y) and Calls a method to open adjacent cell.
+     *
      *
      * @param x
      * @param y
@@ -42,19 +51,49 @@ public class GameLogic {
     public void openCell(int x, int y) {
         Cell cell = minefield.getCell(x, y);
         cell.setOpen();
-        openAdjacentCells(minefield.getCell(x, y));;
+
+        updateWinConditon(cell);
+        if (gameLost == false) {
+            openAdjacentCells(minefield.getCell(x, y), x, y);
+        } else {
+            openAllCells();
+        }
     }
 
-    private void openAdjacentCells(Cell cell) {
-        PriorityQueue<Cell> checkQueue = new PriorityQueue<>();
+    private void openAdjacentCells(Cell cell, int x, int y) {
         int mineCount = cell.getAdjacentMineCount();
-        int flagCount = calculateAdjacentFlags(cell);
+        int flagCount = calculateAdjacentFlags(x, y);
+        if ((mineCount - flagCount) < 1) {
+            breadhFirstSearchCellOpener(cell, x, y);
+        }
     }
 
-    private int calculateAdjacentFlags(Cell cell) {
+    /**
+     * Calculates cells adjacent flags.
+     *
+     * @param x
+     * @param y
+     * @return Number of the adjacent flags for the cell in the given
+     * coordinates
+     */
+    public int calculateAdjacentFlags(int x, int y) {
+        int flagCount = 0;
 
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
 
-        return 0;
+                if (indexIsValid(x + j, y + i)) {
+                    // The index has to be valid before this boolean can be set.
+                    boolean CellIsFlagged = minefield.getCell(x + j, y + i).isFlagged();
+
+                    if (CellIsFlagged) {
+                        flagCount++;
+                    }
+
+                }
+            }
+        }
+        return flagCount;
     }
 
     /**
@@ -95,5 +134,61 @@ public class GameLogic {
 
     public int getFieldWidth() {
         return fieldWidth;
+    }
+
+    private void breadhFirstSearchCellOpener(Cell cell, int x, int y) {
+        ArrayDeque<Point> checkQueue = new ArrayDeque<>();
+        Set<Cell> visited = new HashSet<>();
+        checkQueue.add(new Point(x, y));
+        visited.add(cell);
+
+        while (checkQueue.isEmpty() == false) {
+            Point currentCell = checkQueue.poll();
+            x = currentCell.x;
+            y = currentCell.y;
+
+            for (int i = -1; i < 2; i++) {
+                for (int j = -1; j < 2; j++) {
+
+                    if (indexIsValid(x + j, y + i)) {
+                        Cell nextAdjacentCell = minefield.getCell(x + j, y + i);
+                        Point nextAdjacentPoint = new Point(x + j, y + i);
+                        boolean cellIsNotAlreadyVisited = !visited.contains(nextAdjacentCell);
+
+                        if (cellIsNotAlreadyVisited) {
+                            visited.add(nextAdjacentCell);
+                            nextAdjacentCell.setOpen();
+
+                            if (nextAdjacentCell.getAdjacentMineCount() < 1) {
+                                checkQueue.add(nextAdjacentPoint);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        visited.clear();
+    }
+
+    private boolean indexIsValid(int x, int y) {
+        return minefield.locationIsInsideMatrixBorders(x, y);
+    }
+
+    private void updateWinConditon(Cell cell) {
+        if (cell.isMine()) {
+            gameLost = true;
+        }
+        
+        if (flaggedCells.size() == minefield.getMines()) {
+            
+        }
+    }
+
+    private void openAllCells() {
+        for (int i = 0; i < fieldHeight; i++) {
+            for (int j = 0; j < fieldWidth; j++) {
+                minefield.getCell(j, i).setOpen();
+            }
+        }
     }
 }

@@ -40,3 +40,5 @@ alphaksi?
 26.12.13 3h
 JavaDocia ja logiikkaa + testejä.
 
+28.12.13 3h 
+pientä tappelua etsintäalgoritmin kanssa.

@@ -70,7 +70,7 @@ public class GameLogicTest {
     }
     
     @Test
-    public void ToggleCellFlagChangesFlaggedStatus() {
+    public void toggleCellFlagChangesFlaggedStatus() {
         Cell testCell = testGameLogic.getMinefield().getCell(2, 3);
         
         assertFalse(testCell.isFlagged());
@@ -83,7 +83,7 @@ public class GameLogicTest {
     }
     
     @Test
-    public void ToggleCellFlagAddsCellsToFlaggedCellsHashMap() {
+    public void toggleCellFlagAddsCellsToFlaggedCellsHashMap() {
         testGameLogic.toggleCellFlag(2, 5);
         testGameLogic.toggleCellFlag(6, 2);
         
@@ -95,7 +95,7 @@ public class GameLogicTest {
     }
     
     @Test
-    public void ToggleCellFlagsRemovesCellsFromFlaggedCellsHashMap() {
+    public void toggleCellFlagsRemovesCellsFromFlaggedCellsHashMap() {
         testGameLogic.toggleCellFlag(5, 4);
         testGameLogic.toggleCellFlag(5, 4);
         testGameLogic.toggleCellFlag(3, 2);
@@ -106,5 +106,16 @@ public class GameLogicTest {
         
         assertFalse(testGameLogic.getFlaggedCells().containsKey(testCell1));
         assertFalse(testGameLogic.getFlaggedCells().containsKey(testCell2));
+    }
+    
+    @Test
+    public void correctNumberOfAjdacnetFlagsFound() {
+        Minefield testField = testGameLogic.getMinefield();
+        
+        testField.getCell(1, 3).toggleFlag();
+        testField.getCell(3, 4).toggleFlag();
+        testField.getCell(3, 5).toggleFlag();
+        
+        assertEquals(3, testGameLogic.calculateAdjacentFlags(2, 4));
     }
 }
