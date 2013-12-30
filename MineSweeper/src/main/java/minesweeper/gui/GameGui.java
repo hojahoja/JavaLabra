@@ -20,13 +20,9 @@ import minesweeper.logic.GameLogic;
  */
 public class GameGui implements Runnable {
 
-    // tulee sisältämään Guin näkyvät komponentit
     private JFrame frame;
     private GameLogic gameLogic;
-    // Matriisi, joka sisältää miinakentän solujen graafisen ilmentymän.
-    // Kaikki Solujen sisältöön kuuluva tieto löytyy MineField luokan omasta matriisista.
     private JButton fieldButtons[][];
-    // Siältää JButton iconit ja mahdolliset tallennustiedostot.
     private FileContainer fileContainer;
 
     public GameGui() {
@@ -37,15 +33,24 @@ public class GameGui implements Runnable {
     @Override
     public void run() {
         frame = new JFrame("Minesweeper9001");
-        frame.setPreferredSize(new Dimension(400, 500));
+        int preferredX = gameLogic.getFieldWidth() * 80 / 2;
+        int preferredY = gameLogic.getFieldHeight() * 80 / 2;
+        frame.setPreferredSize(new Dimension(preferredX, preferredY));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         createComponents(frame.getContentPane());
 
         frame.pack();
+
         frame.setVisible(true);
     }
 
+    /**
+     * Creates the components used in the gameplay GUI. Creates the main JPabel
+     * that will contains the minefield JPanel and other information.
+     *
+     * @param contentPane
+     */
     private void createComponents(Container contentPane) {
         JPanel mainWindow = new JPanel();
         mainWindow.setLayout(new BoxLayout(mainWindow, BoxLayout.Y_AXIS));
@@ -56,6 +61,12 @@ public class GameGui implements Runnable {
         contentPane.add(mainWindow);
     }
 
+    /**
+     * Creates the main minefield. A JPanel with a GridLayout that contains
+     * JButtons
+     *
+     * @return JPanel that contains the minefield cells as JButtons
+     */
     private JPanel createMineFieldCells() {
         int height = gameLogic.getFieldHeight();
         int width = gameLogic.getFieldWidth();
@@ -77,6 +88,13 @@ public class GameGui implements Runnable {
     // Samalla lisätään napeille hiiren kuuntelija.
     // alustaa Jbutton tyhjällä png:llä muuten Jbuttoni ei tunnista
     // Jos default iconia ei ole asetettu Jbutton ei tunnista disabled iconia.
+    /**
+     * Creates the buttons that will be contained inside the mineFieldCells
+     * JPanel
+     *
+     * @param height
+     * @param width
+     */
     private void createMineFieldButtons(int height, int width) {
 
         fieldButtons = new JButton[height][width];
@@ -89,17 +107,41 @@ public class GameGui implements Runnable {
         }
     }
 
+    /**
+     * Sets the proper icons to JButtons. An Empty default icon is set to every
+     * button. Changing the icon from Empty to a Flag guarantees that the
+     * JButton will always have a default icon. This is needed for the Bomb icon
+     * to work properly as a DisableButtonIcon.
+     *
+     * @param i
+     * @param j
+     */
     private void setMineFieldIcons(int i, int j) {
         JButton button = fieldButtons[i][j];
         boolean cellHasAMine = gameLogic.getMinefield().getCell(j, i).isMine();
-        
+
         button.setMargin(new Insets(0, 0, 0, 0));
         button.setIcon(fileContainer.getEmptyIcon());
-        
+
         if (cellHasAMine) {
             button.setDisabledIcon(fileContainer.getBombIcon());
         }
-        
+    }
+    
+        /**
+         * Adds the GameListener to JButtons.
+         * 
+         * @param height
+         * @param width 
+         */
+        private void addAMouseListenerToButtons(int height, int width) {
+        GameListener gameListener = new GameListener(fieldButtons, gameLogic, fileContainer);
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                fieldButtons[i][j].addMouseListener(gameListener);
+            }
+        }
     }
 
     // perus getterit alkaa tästä.
@@ -109,18 +151,5 @@ public class GameGui implements Runnable {
 
     public JButton[][] getFieldButtons() {
         return fieldButtons;
-    }
-
-    private void addAListenerToButtons() {
-    }
-
-    private void addAMouseListenerToButtons(int height, int width) {
-        GameListener gameListener = new GameListener(fieldButtons, gameLogic, fileContainer);
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                fieldButtons[i][j].addMouseListener(gameListener);
-            }
-        }
     }
 }

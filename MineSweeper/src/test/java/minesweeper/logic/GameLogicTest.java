@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
  */
 public class GameLogicTest {
     private GameLogic testGameLogic;
+    private Minefield testField; 
     
     public GameLogicTest() {
     }
@@ -32,6 +33,7 @@ public class GameLogicTest {
     @Before
     public void setUp() {
         testGameLogic = new GameLogic(10, 10, 10);
+        testField = testGameLogic.getMinefield();
     }
     
     @After
@@ -61,12 +63,88 @@ public class GameLogicTest {
     }
     
     @Test
+    public void winLoseConditionsAreFalseAfterInitializations() {
+        assertFalse(testGameLogic.isGameLost());
+        assertFalse(testGameLogic.isGameWon());
+    }
+     
+    
+    @Test
+    public void canNotWinTheGameIfItIsAlreadyLost() {
+        testGameLogic.setGameLost();
+        assertTrue(testGameLogic.isGameLost());
+        
+        testGameLogic.setGameWon();
+        assertFalse(testGameLogic.isGameWon());
+    }
+    
+    @Test
+    public void canNotLoseTheGameIfItIsAlreadyWon() {
+        testGameLogic.setGameWon();
+        assertTrue(testGameLogic.isGameWon());
+        
+        testGameLogic.setGameLost();
+        assertFalse(testGameLogic.isGameLost());
+    }
+    
+    @Test
     public void openCellMethodOpensTheCorrectCell() {
-        Minefield testField = testGameLogic.getMinefield();
         Cell testCell = testField.getCell(3, 4);
         
         testGameLogic.openCell(3, 4);
         assertTrue(testCell.isOpen());
+    }
+    
+    @Test
+    public void adjcentCellsAreNotOpenedIfMineCountMinusFlagCountIsHigherThanZero() {
+        GameLogic gameLogic = new GameLogic(3, 3, 0);
+        Minefield minefield = gameLogic.getMinefield();
+        
+        minefield.getCell(2, 2).setMine();
+        minefield.IncreaseMineCountForAdjacentCells(2, 2);
+        gameLogic.openCell(2, 1);
+        
+        int openedCells = 0;
+        for (int i = 0; i < minefield.getHeight(); i++) {
+            for (int j = 0; j < minefield.getWidth(); j++) {
+                if (minefield.getCell(j, i).isOpen()) {
+                    openedCells++;
+                }
+            }
+        }
+        
+        assertEquals(1, openedCells);
+    }
+    
+    @Test
+    public void gameIslostIfMinedCellIsOpened() {
+        GameLogic gameLogic = new GameLogic(3, 3, 0);
+        gameLogic.getMinefield().getCell(2, 2).setMine();
+        
+        gameLogic.openCell(2, 2);
+        
+        assertTrue(gameLogic.isGameLost());
+    }
+    
+    @Test
+    public void IfTheGameIsLostAllTheCellsAreOpenedIncludingFlaggedCells() {
+        GameLogic gameLogic = new GameLogic(3, 3, 0);
+        Minefield minefield = gameLogic.getMinefield();
+        minefield.getCell(2, 2).setMine();
+        
+        minefield.getCell(2, 1).setMine();
+        minefield.getCell(2, 1).isFlagged();
+        
+        gameLogic.openCell(2, 2);
+        
+        int openedCells = 0;
+        for (int i = 0; i < minefield.getHeight(); i++) {
+            for (int j = 0; j < minefield.getWidth(); j++) {
+                openedCells++;
+            }
+        }
+        
+        assertEquals(9, openedCells);
     }
     
     @Test
@@ -109,9 +187,7 @@ public class GameLogicTest {
     }
     
     @Test
-    public void correctNumberOfAjdacnetFlagsFound() {
-        Minefield testField = testGameLogic.getMinefield();
-        
+    public void correctNumberOfAjdacnetFlagsFound() {        
         testField.getCell(1, 3).toggleFlag();
         testField.getCell(3, 4).toggleFlag();
         testField.getCell(3, 5).toggleFlag();

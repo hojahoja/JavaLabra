@@ -42,3 +42,6 @@ JavaDocia ja logiikkaa + testejä.
 
 28.12.13 3h 
 pientä tappelua etsintäalgoritmin kanssa.
+
+29.12.13 3h
+Javadocia + testejä. logiikan parantelua.

@@ -2,10 +2,8 @@ package minesweeper.logic;
 
 import java.awt.Point;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.PriorityQueue;
 import java.util.Set;
 import minesweeper.domain.Cell;
 import minesweeper.domain.Minefield;
@@ -53,16 +51,25 @@ public class GameLogic {
         cell.setOpen();
 
         updateWinConditon(cell);
+
         if (gameLost == false) {
             openAdjacentCells(minefield.getCell(x, y), x, y);
-        } else {
-            openAllCells();
         }
     }
 
+    /**
+     * Opens all the adjacent cells that are safe to open. Opens adjacent cells
+     * of adjacent cells that are have no adjacent mines. The method will also
+     * open the adjacent mines of numbered cell if the cell has as many adjacent
+     * flags as it has adjacent mines.
+     *
+     * @param cell
+     * @param x
+     * @param y
+     */
     private void openAdjacentCells(Cell cell, int x, int y) {
         int mineCount = cell.getAdjacentMineCount();
-        int flagCount = calculateAdjacentFlags(x, y);
+        int flagCount = calculateAdjacentFlags(x, y); // Palautusarvo on testattu miksi cobertura herjaa???
         if ((mineCount - flagCount) < 1) {
             breadhFirstSearchCellOpener(cell, x, y);
         }
@@ -81,7 +88,6 @@ public class GameLogic {
 
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-
                 if (indexIsValid(x + j, y + i)) {
                     // The index has to be valid before this boolean can be set.
                     boolean CellIsFlagged = minefield.getCell(x + j, y + i).isFlagged();
@@ -111,6 +117,14 @@ public class GameLogic {
         updateFlaggedCells(cell, x, y);
     }
 
+    /**
+     * Updates a HashMap that has all the flagged cell. Method is used to update
+     * the HashMap that is used to determine if the win condition is met
+     *
+     * @param cell
+     * @param x
+     * @param y
+     */
     private void updateFlaggedCells(Cell cell, int x, int y) {
         if (flaggedCells.containsKey(cell)) {
             flaggedCells.remove(cell);
@@ -120,6 +134,116 @@ public class GameLogic {
         }
     }
 
+    private void breadhFirstSearchCellOpener(Cell cell, int x, int y) {
+        ArrayDeque<Point> checkQueue = new ArrayDeque<>();
+        Set<Cell> visited = new HashSet<>();
+        checkQueue.add(new Point(x, y));
+        visited.add(cell);
+
+        while (checkQueue.isEmpty() == false && gameLost == false) {
+            Point currentCell = checkQueue.poll();
+            x = currentCell.x;
+            y = currentCell.y;
+
+            for (int i = -1; i < 2; i++) {
+                for (int j = -1; j < 2; j++) {
+
+                    if (indexIsValid(x + j, y + i)) {
+                        Cell nextAdjacentCell = minefield.getCell(x + j, y + i);
+                        Point nextAdjacentPoint = new Point(x + j, y + i);
+                        boolean cellIsNotAlreadyVisited = !visited.contains(nextAdjacentCell);
+
+                        if (cellIsNotAlreadyVisited) {
+                            visited.add(nextAdjacentCell);
+                            nextAdjacentCell.setOpen();
+                            updateWinConditon(nextAdjacentCell);
+
+                            if (nextAdjacentCell.getAdjacentMineCount() < 1) {
+                                checkQueue.add(nextAdjacentPoint);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        visited.clear();
+    }
+
+    /**
+     * Used by other methods to make sure that checked coordinates exists inside
+     * the minefield class.
+     *
+     * @param x
+     * @param y
+     * @return false if the index is out of bounds, true if not.
+     */
+    private boolean indexIsValid(int x, int y) {
+        return minefield.locationIsInsideMatrixBorders(x, y);
+    }
+
+    /**
+     * Used to check the win or lose conditions. If a mined cell is opened
+     * that's also unflagged the method changes the gameLost condition to true
+     * and calls a method to reveal the whole minefield.
+     *
+     * If the minefield has as many flagged cells as it has mines a method will
+     * check the cells for mines. If all flagged cells have mines the gameWon
+     * condition is changed to true
+     *
+     * @param cell
+     */
+    private void updateWinConditon(Cell cell) {
+
+        if (cell.isMine() && cell.isFlagged() == false) {
+            gameLost = true;
+        }
+
+        if (flaggedCells.size() == minefield.getMines()) { // kesken
+        }
+
+        if (gameLost == true) {
+            openAllCells();
+        }
+    }
+
+    /**
+     * Opens every single cell in the game. If a cell is flagged it will be
+     * unflagged and opened anyway. The method is used to show the whole
+     * minefield and mine placements after the game has been lost.
+     */
+    private void openAllCells() {
+        for (int i = 0; i < fieldHeight; i++) {
+            for (int j = 0; j < fieldWidth; j++) {
+                if (minefield.getCell(j, i).isFlagged()) {
+                    minefield.getCell(j, i).toggleFlag();
+                }
+                minefield.getCell(j, i).setOpen();
+
+            }
+        }
+    }
+
+    /**
+     * The method will only set the game as won. The game can't be lost if the
+     * gameWon condition is already true.
+     */
+    public void setGameLost() {
+        if (gameWon == false) {
+            this.gameLost = true;
+        }
+    }
+
+    /**
+     * The method will only set the game as lost. The game can't be won if it
+     * has already been lost.
+     */
+    public void setGameWon() {
+        if (gameLost == false) {
+            this.gameWon = true;
+        }
+    }
+
+    // Nothing special about these getters
     public Minefield getMinefield() {
         return minefield;
     }
@@ -136,59 +260,11 @@ public class GameLogic {
         return fieldWidth;
     }
 
-    private void breadhFirstSearchCellOpener(Cell cell, int x, int y) {
-        ArrayDeque<Point> checkQueue = new ArrayDeque<>();
-        Set<Cell> visited = new HashSet<>();
-        checkQueue.add(new Point(x, y));
-        visited.add(cell);
-
-        while (checkQueue.isEmpty() == false) {
-            Point currentCell = checkQueue.poll();
-            x = currentCell.x;
-            y = currentCell.y;
-
-            for (int i = -1; i < 2; i++) {
-                for (int j = -1; j < 2; j++) {
-
-                    if (indexIsValid(x + j, y + i)) {
-                        Cell nextAdjacentCell = minefield.getCell(x + j, y + i);
-                        Point nextAdjacentPoint = new Point(x + j, y + i);
-                        boolean cellIsNotAlreadyVisited = !visited.contains(nextAdjacentCell);
-
-                        if (cellIsNotAlreadyVisited) {
-                            visited.add(nextAdjacentCell);
-                            nextAdjacentCell.setOpen();
-
-                            if (nextAdjacentCell.getAdjacentMineCount() < 1) {
-                                checkQueue.add(nextAdjacentPoint);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        visited.clear();
+    public boolean isGameLost() {
+        return gameLost;
     }
 
-    private boolean indexIsValid(int x, int y) {
-        return minefield.locationIsInsideMatrixBorders(x, y);
-    }
-
-    private void updateWinConditon(Cell cell) {
-        if (cell.isMine()) {
-            gameLost = true;
-        }
-        
-        if (flaggedCells.size() == minefield.getMines()) {
-            
-        }
-    }
-
-    private void openAllCells() {
-        for (int i = 0; i < fieldHeight; i++) {
-            for (int j = 0; j < fieldWidth; j++) {
-                minefield.getCell(j, i).setOpen();
-            }
-        }
+    public boolean isGameWon() {
+        return gameWon;
     }
 }
