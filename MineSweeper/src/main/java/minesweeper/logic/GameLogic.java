@@ -222,6 +222,17 @@ public class GameLogic {
             }
         }
     }
+    
+    /**
+     * Resets the game by setting both win and lose conditions to false and by creating
+     * a new minefield.
+     */
+    public void resetGame() {
+        gameLost = false;
+        gameWon = false;
+        int mines = minefield.getMines();
+        minefield = new Minefield(fieldHeight, fieldWidth, mines);
+    }
 
     /**
      * The method will only set the game as won. The game can't be lost if the

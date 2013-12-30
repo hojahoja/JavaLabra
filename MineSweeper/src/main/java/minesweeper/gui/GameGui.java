@@ -5,9 +5,12 @@ import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import minesweeper.domain.FileContainer;
@@ -24,6 +27,8 @@ public class GameGui implements Runnable {
     private GameLogic gameLogic;
     private JButton fieldButtons[][];
     private FileContainer fileContainer;
+    private JPanel mainWindow;
+    private GameListener gameListener;
 
     public GameGui() {
         fileContainer = new FileContainer();
@@ -33,8 +38,8 @@ public class GameGui implements Runnable {
     @Override
     public void run() {
         frame = new JFrame("Minesweeper9001");
-        int preferredX = gameLogic.getFieldWidth() * 80 / 2;
-        int preferredY = gameLogic.getFieldHeight() * 80 / 2;
+        int preferredX = gameLogic.getFieldWidth() * 85 / 2;
+        int preferredY = gameLogic.getFieldHeight() * 85 / 2;
         frame.setPreferredSize(new Dimension(preferredX, preferredY));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,14 +56,38 @@ public class GameGui implements Runnable {
      *
      * @param contentPane
      */
-    private void createComponents(Container contentPane) {
-        JPanel mainWindow = new JPanel();
+    public void createComponents(Container contentPane) {
+        mainWindow = new JPanel();
         mainWindow.setLayout(new BoxLayout(mainWindow, BoxLayout.Y_AXIS));
 
         JPanel mineFieldCells = createMineFieldCells();
+        JPanel buttonBar = createButtonBar();
+        
 
+        mainWindow.add(buttonBar);
         mainWindow.add(mineFieldCells);
         contentPane.add(mainWindow);
+    }
+
+    /**
+     * Creates a JPanel that has the reset and high scores buttons.
+     *
+     * @return the created JPanel.
+     */
+    private JPanel createButtonBar() {
+        JPanel buttonBar = new JPanel();        
+        JButton reset = new JButton("Reset Game");
+        JLabel status = new JLabel("Still Alive");
+        
+        FrameListener frameListener = new FrameListener(this, reset);
+        
+        gameListener.addStatusLabel(status);
+        reset.addMouseListener(frameListener);
+        buttonBar.add(reset);
+        buttonBar.add(status);
+
+        frame.addMouseListener(frameListener);
+        return buttonBar;
     }
 
     /**
@@ -80,14 +109,10 @@ public class GameGui implements Runnable {
             }
         }
 
-        addAMouseListenerToButtons(height, width);
+        addAMouseListenerToCellButtons(height, width);
         return mineFieldCells;
     }
 
-    // Luo JButton oliot matriisin sisälle
-    // Samalla lisätään napeille hiiren kuuntelija.
-    // alustaa Jbutton tyhjällä png:llä muuten Jbuttoni ei tunnista
-    // Jos default iconia ei ole asetettu Jbutton ei tunnista disabled iconia.
     /**
      * Creates the buttons that will be contained inside the mineFieldCells
      * JPanel
@@ -127,21 +152,25 @@ public class GameGui implements Runnable {
             button.setDisabledIcon(fileContainer.getBombIcon());
         }
     }
-    
-        /**
-         * Adds the GameListener to JButtons.
-         * 
-         * @param height
-         * @param width 
-         */
-        private void addAMouseListenerToButtons(int height, int width) {
-        GameListener gameListener = new GameListener(fieldButtons, gameLogic, fileContainer);
+
+    /**
+     * Adds the GameListener to JButtons.
+     *
+     * @param height
+     * @param width
+     */
+    private void addAMouseListenerToCellButtons(int height, int width) {
+        gameListener = new GameListener(fieldButtons, gameLogic, fileContainer);
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 fieldButtons[i][j].addMouseListener(gameListener);
             }
         }
+    }
+
+    public GameLogic getGameLogic() {
+        return gameLogic;
     }
 
     // perus getterit alkaa tästä.

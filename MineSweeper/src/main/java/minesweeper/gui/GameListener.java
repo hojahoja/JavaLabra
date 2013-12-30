@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import minesweeper.domain.FileContainer;
 import minesweeper.logic.GameLogic;
 
@@ -16,7 +17,7 @@ import minesweeper.logic.GameLogic;
 public class GameListener implements MouseListener {
 
     //Turhia meteodeja ohjelman kannalta, jotka kuitenkin luodaan, jotta
-    //rajapinta toteutuisi.
+    //rajapinta toteutuisi.    
     @Override
     public void mouseClicked(MouseEvent e) {
     }
@@ -32,7 +33,7 @@ public class GameListener implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
     }
-    /**
+    /*
      *
      *
      * Turhat metodit siiretty toistaiseksi pois häiritsemästä. Kun luokka on
@@ -42,6 +43,7 @@ public class GameListener implements MouseListener {
     private JButton[][] fieldButtons;
     private GameLogic gameLogic;
     private FileContainer fileContainer;
+    private JLabel status;
 
     /**
      * The listener class of the game
@@ -54,6 +56,10 @@ public class GameListener implements MouseListener {
         this.fieldButtons = fieldButtons;
         this.gameLogic = gameLogic;
         this.fileContainer = fileContainer;
+    }
+
+    public void addStatusLabel(JLabel status) {
+        this.status = status;
     }
 
     @Override
@@ -99,7 +105,7 @@ public class GameListener implements MouseListener {
      * @param height
      * @param width
      */
-    private void updateWindow(int height, int width) {
+    public void updateWindow(int height, int width) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 openedStatusUpdate(j, i);
