@@ -1,12 +1,10 @@
 package minesweeper.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,25 +27,36 @@ public class GameGui implements Runnable {
     private FileContainer fileContainer;
     private JPanel mainWindow;
     private GameListener gameListener;
+    private FrameListener frameListener;
+    private GameMenuBar gameMenuBar;
 
     public GameGui() {
         fileContainer = new FileContainer();
         gameLogic = new GameLogic(10, 10, 10);
+        frameListener = new FrameListener(this); // adds the GUI to the listener
+        gameMenuBar = new GameMenuBar(frameListener);
     }
 
     @Override
     public void run() {
         frame = new JFrame("Minesweeper9001");
+        addMenuBar();
         int preferredX = gameLogic.getFieldWidth() * 85 / 2;
-        int preferredY = gameLogic.getFieldHeight() * 85 / 2;
+        int preferredY = gameLogic.getFieldHeight() * 95 / 2;
         frame.setPreferredSize(new Dimension(preferredX, preferredY));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+        
         createComponents(frame.getContentPane());
-
         frame.pack();
 
         frame.setVisible(true);
+    }
+    /**
+     * Adds a JMenuBar to the frame.
+     * 
+     */
+        private void addMenuBar() {
+           frame.setJMenuBar(gameMenuBar);
     }
 
     /**
@@ -63,7 +72,7 @@ public class GameGui implements Runnable {
         JPanel mineFieldCells = createMineFieldCells();
         JPanel buttonBar = createButtonBar();
         
-
+        
         mainWindow.add(buttonBar);
         mainWindow.add(mineFieldCells);
         contentPane.add(mainWindow);
@@ -79,14 +88,13 @@ public class GameGui implements Runnable {
         JButton reset = new JButton("Reset Game");
         JLabel status = new JLabel("Still Alive");
         
-        FrameListener frameListener = new FrameListener(this, reset);
+        frameListener.addResetButton(reset);
         
         gameListener.addStatusLabel(status);
-        reset.addMouseListener(frameListener);
+        reset.addActionListener(frameListener);
         buttonBar.add(reset);
         buttonBar.add(status);
 
-        frame.addMouseListener(frameListener);
         return buttonBar;
     }
 
@@ -167,6 +175,20 @@ public class GameGui implements Runnable {
                 fieldButtons[i][j].addMouseListener(gameListener);
             }
         }
+    }
+    
+    public void createNewGame(int height, int width, int mines){
+        gameLogic = new GameLogic(height, width, mines);   
+        frame.getContentPane().removeAll();
+        
+        int preferredX = gameLogic.getFieldWidth() * 85 / 2;
+        int preferredY = gameLogic.getFieldHeight() * 95 / 2;
+        frame.setPreferredSize(new Dimension(preferredX, preferredY));
+        
+        createComponents(frame.getContentPane());
+        
+        frame.pack();
+        frame.setVisible(true);
     }
 
     public GameLogic getGameLogic() {

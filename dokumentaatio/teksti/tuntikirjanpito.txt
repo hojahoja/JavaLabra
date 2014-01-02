@@ -45,3 +45,10 @@ pientä tappelua etsintäalgoritmin kanssa.
 
 29.12.13 3h
 Javadocia + testejä. logiikan parantelua.
+
+30.12.13 4h
+Reset ominaisuus pelille. Valikkojen Hahmottelua.
+FrameListener luokka.
+
+1.12.14 3h 
+Bugien korjausta ja Winconditionin parentaleua + lisää testejä of course.
