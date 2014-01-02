@@ -1,0 +1,27 @@
+title Käyttötapaus: Pelin Käynnistäminen(logiikka)
+
+Main->mineSweeper: new GameGui()
+mineSweeper->gameLogic: new GameLogic(8, 8, 10)
+gameLogic->minefield: new Minefield(8, 8, 10);
+
+activate minefield
+minefield->minefield: initializeMinefield()
+loop for 0 to (8*8)
+  minefield->Cell: new Cell()
+end
+
+minefield->minefield: generateMines()
+activate minefield
+minefield->rng: new Random()
+loop for each mine
+  minefield->rng: x:= nextInt
+  minefield->rng: y:= nextInt
+  minefield->minefield: getCell(x, y)
+  minefield->Cell: setMine()
+  minefield->minefield: increaceMineCountForAdjacentCells(x, y)
+  loop for each adjacent cell
+    minefield->Cell: increaceAdjacentMineCount()
+  end
+end
+deactivate minefield
+deactivate minefield

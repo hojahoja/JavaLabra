@@ -1,6 +1,6 @@
 package minesweeper.gui;
 
-import java.awt.BorderLayout;
+
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import minesweeper.domain.FileContainer;
-import minesweeper.domain.Minefield;
 import minesweeper.logic.GameLogic;
 
 /**
@@ -177,6 +176,14 @@ public class GameGui implements Runnable {
         }
     }
     
+    /**
+     * Creates a new instance of the gameLogic class with the set parameters and updates the GUI
+     * to show the result. Previous components are removed.
+     * 
+     * @param height
+     * @param width
+     * @param mines 
+     */
     public void createNewGame(int height, int width, int mines){
         gameLogic = new GameLogic(height, width, mines);   
         frame.getContentPane().removeAll();
@@ -190,12 +197,12 @@ public class GameGui implements Runnable {
         frame.pack();
         frame.setVisible(true);
     }
-
+    
+    // perus getterit alkaa tästä.
     public GameLogic getGameLogic() {
         return gameLogic;
     }
 
-    // perus getterit alkaa tästä.
     public JFrame getFrame() {
         return frame;
     }

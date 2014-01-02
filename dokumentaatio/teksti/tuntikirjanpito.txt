@@ -52,3 +52,8 @@ FrameListener luokka.
 
 1.12.14 3h 
 Bugien korjausta ja Winconditionin parentaleua + lisää testejä of course.
+
+2.12.14 5h+
+Valikkopalkki, vaikeustasoja, uusia testejä, sekvenssikaavioita, 
+uusi luokkakaavio, Javadocin parantelua.
+Deadline 4 varten viimeistelyä.

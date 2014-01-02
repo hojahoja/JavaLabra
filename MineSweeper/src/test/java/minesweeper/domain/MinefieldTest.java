@@ -18,6 +18,7 @@ import static org.junit.Assert.*;
 public class MinefieldTest {
 
     private Minefield testField;
+    private Minefield emptyField;
 
     public MinefieldTest() {
     }
@@ -33,6 +34,7 @@ public class MinefieldTest {
     @Before
     public void setUp() {
         testField = new Minefield(10, 10, 10);
+        emptyField = new Minefield(4, 4, 0);
     }
 
     @After
@@ -117,5 +119,28 @@ public class MinefieldTest {
         
         assertEquals(3, testCell1.getAdjacentMineCount());
         assertEquals(1, testCell2.getAdjacentMineCount());
+    }
+    
+    @Test
+    public void setTestMinesActuallySetsUpAMine() {
+        emptyField.setTestMine(3, 2);
+        
+        assertTrue(emptyField.getCell(3, 2).isMine());
+    }
+    
+    @Test
+    public void setTestMinesIncreasesTheMineCountProperly() {
+        emptyField.setTestMine(2, 2);
+        emptyField.setTestMine(2, 3);
+        
+        assertEquals(2, emptyField.getMines());
+    }
+    
+    @Test
+    public void setTestMinesIncreasesTheAdjacentMineCountProperly() {
+        emptyField.setTestMine(2, 3);
+        emptyField.setTestMine(3, 3);
+        
+        assertEquals(2, emptyField.getCell(2, 2).getAdjacentMineCount());
     }
 }

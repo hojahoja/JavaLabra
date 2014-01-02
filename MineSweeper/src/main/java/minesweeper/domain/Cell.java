@@ -1,7 +1,5 @@
 package minesweeper.domain;
 
-import java.util.LinkedList;
-
 /**
  *
  * @author juri

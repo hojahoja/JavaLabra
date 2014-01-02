@@ -1,0 +1,27 @@
+title Käyttötapaus: pelin häviäminen(logiikka)
+
+GameListener->gameLogic: OpenCell(x, y)
+gameLogic->minefield: getCell(x, y)
+minefield-->gameLogic: cell
+gameLogic->cell: setOpen()
+gameLogic->gameLogic: updateWinCondition()
+
+gameLogic->cell: isOpen()
+cell--> gameLogic: true
+gameLogic->cell: isMine()
+cell--> gameLogic: true
+gameLogic->cell: isFlagged()
+cell--> gameLogic: false
+
+gameLogic->gameLogic: gameLost == true
+gameLogic->gameLogic: openAllCells()
+loop for each cell in minefield
+  gameLogic->minefield: getCell(x, y)
+  minefield->cell: isFlagged()
+  cell-->gameLogic: true/false
+  alt cellIsFlagged == true
+    gameLogic->minefield: toggleCell()
+  end
+  gameLogic->minefield: getCell()
+  minefield->cell: setOpen()
+end

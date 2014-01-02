@@ -1,7 +1,6 @@
 package minesweeper.domain;
 
 import java.util.Random;
-import sun.security.util.Length;
 
 /**
  *
@@ -127,5 +126,17 @@ public class Minefield {
      */
     public boolean locationIsInsideMatrixBorders(int j, int i) {
         return i > -1 && i < height && j > -1 && j < width;
+    }
+    
+    /**
+     * Only in tests for generating non random mines.
+     * 
+     * @param x
+     * @param y 
+     */
+    public void setTestMine(int x, int y) {
+        getCell(x, y).setMine();
+        IncreaseMineCountForAdjacentCells(x, y);
+        mines++;
     }
 }

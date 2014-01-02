@@ -26,7 +26,7 @@ public class FileContainer {
         this.bombIcon = setUpBombIcon();
         this.emptyIcon = setUpEmptyIcon();
     }
-
+    
     private File setUpTextFile() {
         return new File("src/main/resources/scoreFile");
     }

@@ -2,7 +2,6 @@ package minesweeper.logic;
 
 import java.awt.Point;
 import java.util.ArrayDeque;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import minesweeper.domain.Cell;
@@ -134,6 +133,17 @@ public class GameLogic {
         }
     }
 
+    /**
+     * Utilizes a BFS-algorithm to open every adjacent cell to the recently
+     * opened one. If the cell doesn't have adjacent mines, each adjacent cell
+     * is opened. If a cell has adjacent mines, the cell will be opened but it's
+     * adjacent cells will not be queued up for inspection. The win condition
+     * will be checked after opening a new cell.
+     *
+     * @param cell
+     * @param x
+     * @param y
+     */
     private void breadhFirstSearchCellOpener(Cell cell, int x, int y) {
         ArrayDeque<Point> checkQueue = new ArrayDeque<>();
         Set<Cell> visited = new HashSet<>();
@@ -208,6 +218,12 @@ public class GameLogic {
         }
     }
 
+    /**
+     * This method is called when the mine and and flag counts are the same. The
+     * method makes sure that every other cell in the game is open and that the
+     * flag count is equal to the mine count. The game can be won when these
+     * conditions are met.
+     */
     private void CheckIfTheWinConditionIsMet() {
         int cellsOpened = 0;
         int correctCellsFlagged = 0;
@@ -223,7 +239,7 @@ public class GameLogic {
                 }
             }
         }
-        
+
         boolean WinConditionIsMet = fieldHeight * fieldWidth - correctCellsFlagged - cellsOpened == 0;
         if (WinConditionIsMet) {
             setGameWon();

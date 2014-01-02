@@ -58,6 +58,12 @@ public class GameListener implements MouseListener {
         this.fileContainer = fileContainer;
     }
 
+    /**
+     * This method is used by the GUI to add the status JLabel after the
+     * GameListener has already been created.
+     *
+     * @param status
+     */
     public void addStatusLabel(JLabel status) {
         this.status = status;
     }
@@ -99,7 +105,7 @@ public class GameListener implements MouseListener {
     }
 
     /**
-     * Goes trough all of the JButtons and calls two methods that update the the
+     * Goes trough all of the JButtons and calls methods that update the
      * GUI.
      *
      * @param height
@@ -209,11 +215,15 @@ public class GameListener implements MouseListener {
         }
     }
 
+    /**
+     * If the game is lost or won the JLabel is updated accordingly.
+     * 
+     */
     private void winLoseUpdate() {
         if (gameLogic.isGameWon()) {
             status.setText("Flawless Victory");
         }
-        
+
         if (gameLogic.isGameLost()) {
             status.setText("Bitter Defeat");
         }

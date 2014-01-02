@@ -100,8 +100,7 @@ public class GameLogicTest {
         GameLogic gameLogic = new GameLogic(3, 3, 0);
         Minefield minefield = gameLogic.getMinefield();
 
-        minefield.getCell(2, 2).setMine();
-        minefield.IncreaseMineCountForAdjacentCells(2, 2);
+        minefield.setTestMine(2, 2);
         gameLogic.openCell(2, 1);
 
         int openedCells = 0;
@@ -119,7 +118,7 @@ public class GameLogicTest {
     @Test
     public void gameIslostIfMinedCellIsOpened() {
         GameLogic gameLogic = new GameLogic(3, 3, 0);
-        gameLogic.getMinefield().getCell(2, 2).setMine();
+        gameLogic.getMinefield().setTestMine(2, 2);
 
         gameLogic.openCell(2, 2);
 
@@ -158,9 +157,9 @@ public class GameLogicTest {
     public void IfTheGameIsLostAllTheCellsAreOpenedIncludingFlaggedCells() {
         GameLogic gameLogic = new GameLogic(3, 3, 0);
         Minefield minefield = gameLogic.getMinefield();
-        minefield.getCell(2, 2).setMine();
+        minefield.setTestMine(2, 2);
 
-        minefield.getCell(2, 1).setMine();
+        minefield.setTestMine(2, 1);
         minefield.getCell(2, 1).isFlagged();
 
         gameLogic.openCell(2, 2);
@@ -221,5 +220,28 @@ public class GameLogicTest {
         testField.getCell(3, 5).toggleFlag();
 
         assertEquals(3, testGameLogic.calculateAdjacentFlags(2, 4));
+    }
+    
+    @Test
+    public void resetGameResetsTheWinConditions() {
+        GameLogic gameLogic = new GameLogic(4, 4, 0);
+        Minefield minefield = gameLogic.getMinefield();
+        
+        minefield.setTestMine(2, 2);
+        gameLogic.toggleCellFlag(2, 3);
+        gameLogic.openCell(2, 2);
+        
+        gameLogic.resetGame();
+        
+        assertFalse(gameLogic.isGameLost());
+        assertFalse(gameLogic.isGameWon());
+        assertEquals(0, gameLogic.getFlaggedCells().size());
+    }
+    
+    @Test
+    public void restGameCreatesNewMineField() {
+        testGameLogic.resetGame();
+        assertNotSame(testField, testGameLogic.getMinefield());
+        assertEquals(10, testGameLogic.getMinefield().getMines());
     }
 }

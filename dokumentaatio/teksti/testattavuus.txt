@@ -1,6 +1,11 @@
+cobertura bugaa hämmentävästi. Esimerkiksi punaista viivaa satunaisista kohdista javadocia???
+
+
 GameLogic:
 
   Open cell: kutsuu metodia, joka avaa viereiset solut vain, jos
   ei ole vielä hävitty. Tätä on hankala testata sillä, jos peli on hävitty
   kaikki ruudut avataan joka tapauksessa. Eikä ole oikeastaan toiminnan 
   kannalta hirvittävä menetys, jos metodia kutsutaan if lauseesta huolimatta.
+
+  IndexIsValid: Metodi kutsuu ainoastaan minefieldin metodia, joka on jo testattu toimivaksi...
