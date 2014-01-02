@@ -15,7 +15,7 @@ import minesweeper.domain.Minefield;
 public class GameLogic {
 
     private Minefield minefield;
-    private HashMap<Cell, Point> flaggedCells;
+    private HashSet<Cell> flaggedCells;
     private int fieldHeight;
     private int fieldWidth;
     private boolean gameWon;
@@ -32,7 +32,7 @@ public class GameLogic {
      */
     public GameLogic(int height, int width, int mines) {
         this.minefield = new Minefield(height, width, mines);
-        this.flaggedCells = new HashMap<>();
+        this.flaggedCells = new HashSet<>();
         this.fieldHeight = height;
         this.fieldWidth = width;
         this.gameWon = false;
@@ -114,7 +114,8 @@ public class GameLogic {
     public void toggleCellFlag(int x, int y) {
         Cell cell = minefield.getCell(x, y);
         cell.toggleFlag();
-        updateFlaggedCells(cell, x, y);
+        updateFlaggedCells(cell);
+        updateWinConditon(cell);
     }
 
     /**
@@ -125,12 +126,11 @@ public class GameLogic {
      * @param x
      * @param y
      */
-    private void updateFlaggedCells(Cell cell, int x, int y) {
-        if (flaggedCells.containsKey(cell)) {
+    private void updateFlaggedCells(Cell cell) {
+        if (flaggedCells.contains(cell)) {
             flaggedCells.remove(cell);
         } else {
-            Point point = new Point(x, y);
-            flaggedCells.put(cell, point);
+            flaggedCells.add(cell);
         }
     }
 
@@ -166,6 +166,7 @@ public class GameLogic {
                 }
             }
         }
+        updateWinConditon(cell);
         visited.clear();
     }
 
@@ -194,15 +195,38 @@ public class GameLogic {
      */
     private void updateWinConditon(Cell cell) {
 
-        if (cell.isMine() && cell.isFlagged() == false) {
+        if (cell.isOpen() && cell.isMine() && cell.isFlagged() == false) {
             gameLost = true;
         }
 
-        if (flaggedCells.size() == minefield.getMines()) { // kesken
+        if (flaggedCells.size() == minefield.getMines()) {
+            CheckIfTheWinConditionIsMet();
         }
 
         if (gameLost == true) {
             openAllCells();
+        }
+    }
+
+    private void CheckIfTheWinConditionIsMet() {
+        int cellsOpened = 0;
+        int correctCellsFlagged = 0;
+
+        for (int i = 0; i < fieldHeight; i++) {
+            for (int j = 0; j < fieldWidth; j++) {
+
+                Cell cell = minefield.getCell(j, i);
+                if (cell.isMine() && cell.isFlagged()) {
+                    correctCellsFlagged++;
+                } else if (cell.isOpen()) {
+                    cellsOpened++;
+                }
+            }
+        }
+        
+        boolean WinConditionIsMet = fieldHeight * fieldWidth - correctCellsFlagged - cellsOpened == 0;
+        if (WinConditionIsMet) {
+            setGameWon();
         }
     }
 
@@ -222,16 +246,17 @@ public class GameLogic {
             }
         }
     }
-    
+
     /**
-     * Resets the game by setting both win and lose conditions to false and by creating
-     * a new minefield.
+     * Resets the game by setting both win and lose conditions to false and by
+     * creating a new minefield.
      */
     public void resetGame() {
         gameLost = false;
         gameWon = false;
         int mines = minefield.getMines();
         minefield = new Minefield(fieldHeight, fieldWidth, mines);
+        flaggedCells.clear();
     }
 
     /**
@@ -259,7 +284,7 @@ public class GameLogic {
         return minefield;
     }
 
-    public HashMap<Cell, Point> getFlaggedCells() {
+    public HashSet<Cell> getFlaggedCells() {
         return flaggedCells;
     }
 

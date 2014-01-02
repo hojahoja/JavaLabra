@@ -110,6 +110,7 @@ public class GameListener implements MouseListener {
             for (int j = 0; j < width; j++) {
                 openedStatusUpdate(j, i);
                 flaggedStatusUpdate(j, i);
+                winLoseUpdate();
             }
         }
     }
@@ -205,6 +206,16 @@ public class GameListener implements MouseListener {
             if (cellHasFlagIcon) {
                 fieldButtons[i][j].setIcon(fileContainer.getEmptyIcon());
             }
+        }
+    }
+
+    private void winLoseUpdate() {
+        if (gameLogic.isGameWon()) {
+            status.setText("Flawless Victory");
+        }
+        
+        if (gameLogic.isGameLost()) {
+            status.setText("Bitter Defeat");
         }
     }
 }

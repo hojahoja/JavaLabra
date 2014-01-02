@@ -1,0 +1,16 @@
+﻿Aihe: Miinaharava
+Näin aluksi tarkoituksena toteuttaa 10x10 miinaharava. Ruudut joiden
+ympärillä on miinoja on luku, joka kertoo ympärillä olevien miinojen
+lukumäärän. Pelaaja voi merkitä missä ruudukossa epäilee miinan sijaitsevan.
+Pelin voittaa, kun kaikki miinat on merkitty oikein ja muut ruudut avattu.
+Pelin häviää, kun avaa ruudun, jossa on miina. Peli ottaa taustalla aikaa pelaajan suorituksesta ja pitää ylhäällä kymmenen nopeinta suoritusta sekunnin tarkkuudella.
+ Nopeimmilta suorituksilta pyydetään myös nimimerkki.
+
+Käyttäjät: Pelaaja
+
+Toiminnot:
+  * Ruudun avaaminen
+      -Merkittyä ruutua ei voi avata
+  * Miinan merkitseminen
+  * Nimimerkin kirjaaminen ennätykseen
+      -Vain jos pääsee kymmenen parhaan joukkoon

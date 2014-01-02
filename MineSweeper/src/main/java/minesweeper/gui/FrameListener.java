@@ -33,8 +33,6 @@ public class FrameListener implements MouseListener {
 
             gui.getFrame().setVisible(true);
         }
-        
-        System.out.println("nogga");
     }
 
     @Override

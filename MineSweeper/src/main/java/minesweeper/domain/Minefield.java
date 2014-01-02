@@ -83,6 +83,7 @@ public class Minefield {
      * generated.
      */
     private void generateMines() {
+        
         Random rng = new Random();
         int hasMines = 0;
 
