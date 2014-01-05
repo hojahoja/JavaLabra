@@ -57,3 +57,9 @@ Bugien korjausta ja Winconditionin parentaleua + lisää testejä of course.
 Valikkopalkki, vaikeustasoja, uusia testejä, sekvenssikaavioita, 
 uusi luokkakaavio, Javadocin parantelua.
 Deadline 4 varten viimeistelyä.
+
+4.12.14 2h+
+Tutustuminen swinging dialogeihin. Sähläämiseen kului aikaa
+
+5.12.14 +-0h
+Koodikatselmoinnin aloittaminen. Repo ladattu about 14:30
