@@ -15,6 +15,7 @@ public class FrameListener implements ActionListener {
 
     private GameGui gui;
     private GameLogic gameLogic;
+    private CustomFieldDialog customFieldDialog;
     // Event sources.
     private JButton reset;
     private JMenuItem easy;
@@ -22,10 +23,13 @@ public class FrameListener implements ActionListener {
     private JMenuItem hard;
     private JMenuItem customGame;
     private JMenuItem hiScore;
+    
 
     public FrameListener(GameGui gui) {
         this.gui = gui;
         this.gameLogic = gui.getGameLogic();
+        this.customFieldDialog = new CustomFieldDialog(gui.getFrame());
+        this.customFieldDialog.pack();
     }
 
     @Override
@@ -37,7 +41,8 @@ public class FrameListener implements ActionListener {
         } else if (source == easy || source == medium || source == hard) {
             handleDifficultySettins(source);
         } else if (source == customGame) {
-            JOptionPane.showMessageDialog(gui.getFrame(), "Work In Progress");
+            customFieldDialog.setLocationRelativeTo(gui.getFrame());
+            customFieldDialog.setVisible(true);
         } else if (source == hiScore) {
             JOptionPane.showMessageDialog(gui.getFrame(), "Work In Progress");
         }
