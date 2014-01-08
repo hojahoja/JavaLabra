@@ -44,6 +44,7 @@ public class GameListener implements MouseListener {
     private GameLogic gameLogic;
     private FileContainer fileContainer;
     private JLabel status;
+    private JLabel flagCount;
 
     /**
      * The listener class of the game
@@ -66,6 +67,10 @@ public class GameListener implements MouseListener {
      */
     public void addStatusLabel(JLabel status) {
         this.status = status;
+    }
+    
+    public void addFlagCountLabel(JLabel flagCount) {
+        this.flagCount = flagCount;
     }
 
     @Override
@@ -169,7 +174,7 @@ public class GameListener implements MouseListener {
      * Chooses a proper color for the specified mine count.
      *
      * @param mineCount
-     * @return the Color chosen to for a specific number.
+     * @return the Color chosen for a specific number.
      */
     private Color getNumberColor(int mineCount) {
         switch (mineCount) {
@@ -205,6 +210,7 @@ public class GameListener implements MouseListener {
         ImageIcon flagIcon = fileContainer.getFlagIcon();
         boolean cellHasAFlag = gameLogic.getMinefield().getCell(j, i).isFlagged();
         boolean cellHasFlagIcon = fieldButtons[i][j].getIcon() == flagIcon;
+        int flags = gameLogic.getFlaggedCellCount();
 
         if (cellHasAFlag) {
             fieldButtons[i][j].setIcon(flagIcon);
@@ -213,6 +219,9 @@ public class GameListener implements MouseListener {
                 fieldButtons[i][j].setIcon(fileContainer.getEmptyIcon());
             }
         }
+        
+        String flagCounterText = "Flags: "+flags+"/"+gameLogic.getMinefield().getMines();
+        flagCount.setText(flagCounterText);
     }
 
     /**

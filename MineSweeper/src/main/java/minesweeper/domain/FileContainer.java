@@ -28,7 +28,7 @@ public class FileContainer {
     }
     
     private File setUpTextFile() {
-        return new File("src/main/resources/scoreFile");
+        return new File("src/main/resources/easyScore");
     }
 
     private ImageIcon setUpFlagIcon() {

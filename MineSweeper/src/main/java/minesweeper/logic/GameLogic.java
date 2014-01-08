@@ -126,6 +126,10 @@ public class GameLogic {
      * @param y
      */
     private void updateFlaggedCells(Cell cell) {
+        if (cell.isOpen()) {
+            return;
+        }
+        
         if (flaggedCells.contains(cell)) {
             flaggedCells.remove(cell);
         } else {
@@ -302,6 +306,10 @@ public class GameLogic {
 
     public HashSet<Cell> getFlaggedCells() {
         return flaggedCells;
+    }
+
+    public int getFlaggedCellCount() {
+        return flaggedCells.size();
     }
 
     public int getFieldHeight() {

@@ -64,6 +64,27 @@ public class GameLogicTest {
     }
 
     @Test
+    public void returnsTheCorrectTotlaOfFlaggedCells() {
+        assertEquals(0, testGameLogic.getFlaggedCellCount());
+
+        testGameLogic.toggleCellFlag(3, 4);
+        testGameLogic.toggleCellFlag(4, 1);
+
+        assertEquals(2, testGameLogic.getFlaggedCellCount());
+    }
+
+    @Test
+    public void openedCellsCannotBeFlagged() {
+        GameLogic gameLogic = new GameLogic(10, 10, 0);
+        
+        gameLogic.getMinefield().setTestMine(3, 4);
+        gameLogic.openCell(2, 2);
+        gameLogic.toggleCellFlag(2, 2);
+        
+        assertEquals(0, gameLogic.getFlaggedCellCount());
+    }
+
+    @Test
     public void winLoseConditionsAreFalseAfterInitializations() {
         assertFalse(testGameLogic.isGameLost());
         assertFalse(testGameLogic.isGameWon());
@@ -125,31 +146,31 @@ public class GameLogicTest {
         assertTrue(gameLogic.isGameLost());
     }
 
-    @Test    
+    @Test
     public void gameCanBeWonByOpeningTheLastCell() {
-        GameLogic gameLogic  = new GameLogic(2, 2, 0);
+        GameLogic gameLogic = new GameLogic(2, 2, 0);
         Minefield minefield = gameLogic.getMinefield();
         minefield.getCell(1, 0).isMine();
-        
+
         gameLogic.openCell(0, 0);
-        gameLogic.openCell(0, 1);        
-        
+        gameLogic.openCell(0, 1);
+
         minefield.getCell(1, 0).toggleFlag();
-        
-        gameLogic.openCell(1, 1);      
+
+        gameLogic.openCell(1, 1);
         assertTrue(gameLogic.isGameWon());
     }
-    
+
     @Test
     public void gameCanBeWonByFlaggingTheLastCell() {
-        GameLogic gameLogic  = new GameLogic(10, 10, 0);
+        GameLogic gameLogic = new GameLogic(10, 10, 0);
         Minefield minefield = gameLogic.getMinefield();
-        
+
         minefield.getCell(6, 4).isMine();
-        
-        gameLogic.openCell(3, 5);         
-        gameLogic.toggleCellFlag(6, 4);        
-             
+
+        gameLogic.openCell(3, 5);
+        gameLogic.toggleCellFlag(6, 4);
+
         assertTrue(gameLogic.isGameWon());
     }
 
@@ -221,23 +242,23 @@ public class GameLogicTest {
 
         assertEquals(3, testGameLogic.calculateAdjacentFlags(2, 4));
     }
-    
+
     @Test
     public void resetGameResetsTheWinConditions() {
         GameLogic gameLogic = new GameLogic(4, 4, 0);
         Minefield minefield = gameLogic.getMinefield();
-        
+
         minefield.setTestMine(2, 2);
         gameLogic.toggleCellFlag(2, 3);
         gameLogic.openCell(2, 2);
-        
+
         gameLogic.resetGame();
-        
+
         assertFalse(gameLogic.isGameLost());
         assertFalse(gameLogic.isGameWon());
         assertEquals(0, gameLogic.getFlaggedCells().size());
     }
-    
+
     @Test
     public void restGameCreatesNewMineField() {
         testGameLogic.resetGame();

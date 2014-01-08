@@ -1,6 +1,7 @@
 package minesweeper.gui;
 
 
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -31,7 +32,7 @@ public class GameGui implements Runnable {
 
     public GameGui() {
         fileContainer = new FileContainer();
-        gameLogic = new GameLogic(10, 10, 10);
+        gameLogic = new GameLogic(8, 8, 10);
         frameListener = new FrameListener(this); // adds the GUI to the listener
         gameMenuBar = new GameMenuBar(frameListener);
     }
@@ -41,7 +42,7 @@ public class GameGui implements Runnable {
         frame = new JFrame("Minesweeper9001");
         addMenuBar();
         int preferredX = gameLogic.getFieldWidth() * 85 / 2;
-        int preferredY = gameLogic.getFieldHeight() * 95 / 2;
+        int preferredY = gameLogic.getFieldHeight() * 98 / 2;
         frame.setPreferredSize(new Dimension(preferredX, preferredY));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         
@@ -70,10 +71,12 @@ public class GameGui implements Runnable {
 
         JPanel mineFieldCells = createMineFieldCells();
         JPanel buttonBar = createButtonBar();
+        JPanel infoBar = createInfoBar();
         
         
         mainWindow.add(buttonBar);
         mainWindow.add(mineFieldCells);
+        mainWindow.add(infoBar);
         contentPane.add(mainWindow);
     }
 
@@ -189,7 +192,7 @@ public class GameGui implements Runnable {
         frame.getContentPane().removeAll();
         
         int preferredX = gameLogic.getFieldWidth() * 85 / 2;
-        int preferredY = gameLogic.getFieldHeight() * 95 / 2;
+        int preferredY = gameLogic.getFieldHeight() * 98 / 2;
         frame.setPreferredSize(new Dimension(preferredX, preferredY));
         
         createComponents(frame.getContentPane());
@@ -198,7 +201,7 @@ public class GameGui implements Runnable {
         frame.setVisible(true);
     }
     
-    // perus getterit alkaa tästä.
+    // Getters, nothing to see here...
     public GameLogic getGameLogic() {
         return gameLogic;
     }
@@ -209,5 +212,14 @@ public class GameGui implements Runnable {
 
     public JButton[][] getFieldButtons() {
         return fieldButtons;
+    }
+
+    private JPanel createInfoBar() {
+        JPanel infoBar = new JPanel(new BorderLayout());
+        JLabel flagCount = new JLabel("Flags: 0/"+gameLogic.getMinefield().getMines());
+        
+        gameListener.addFlagCountLabel(flagCount);
+        infoBar.add(flagCount, BorderLayout.WEST);
+        return infoBar;
     }
 }

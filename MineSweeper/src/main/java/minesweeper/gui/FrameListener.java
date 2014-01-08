@@ -1,5 +1,6 @@
 package minesweeper.gui;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -8,6 +9,8 @@ import javax.swing.JOptionPane;
 import minesweeper.logic.GameLogic;
 
 /**
+ * FrameListener is used to handle events that are outside of the actual gaming
+ * field
  *
  * @author juri
  */
@@ -15,7 +18,7 @@ public class FrameListener implements ActionListener {
 
     private GameGui gui;
     private GameLogic gameLogic;
-    private CustomFieldDialog customFieldDialog;
+    private CustomOptionsPanel customFieldPanel;
     // Event sources.
     private JButton reset;
     private JMenuItem easy;
@@ -23,13 +26,11 @@ public class FrameListener implements ActionListener {
     private JMenuItem hard;
     private JMenuItem customGame;
     private JMenuItem hiScore;
-    
 
     public FrameListener(GameGui gui) {
         this.gui = gui;
         this.gameLogic = gui.getGameLogic();
-        this.customFieldDialog = new CustomFieldDialog(gui.getFrame());
-        this.customFieldDialog.pack();
+        this.customFieldPanel = new CustomOptionsPanel();
     }
 
     @Override
@@ -41,8 +42,7 @@ public class FrameListener implements ActionListener {
         } else if (source == easy || source == medium || source == hard) {
             handleDifficultySettins(source);
         } else if (source == customGame) {
-            customFieldDialog.setLocationRelativeTo(gui.getFrame());
-            customFieldDialog.setVisible(true);
+            HandleCustomGameOptions();
         } else if (source == hiScore) {
             JOptionPane.showMessageDialog(gui.getFrame(), "Work In Progress");
         }
@@ -61,30 +61,109 @@ public class FrameListener implements ActionListener {
         gui.getFrame().setVisible(true);
     }
 
+    /**
+     * Calls createNewGame method from gui and gives it parameters according to
+     * the chosen difficulty setting
+     *
+     * @param source
+     */
     private void handleDifficultySettins(Object source) {
-        if (source == easy) {            
+        if (source == easy) {
             gui.createNewGame(8, 8, 10);
         } else if (source == medium) {
             gui.createNewGame(16, 16, 40);
         } else if (source == hard) {
             gui.createNewGame(16, 30, 99);
         }
-        
+
         gameLogic = gui.getGameLogic();
     }
 
+    /**
+     * Add the reset button to FrameListener.
+     *
+     * @param reset
+     */
     public void addResetButton(JButton reset) {
         this.reset = reset;
     }
 
+    /**
+     * Add JMenuitems related to the difficulty settings to FrameListener.
+     *
+     * @param easy
+     * @param medium
+     * @param hard
+     */
     public void addDifficultyMenuItems(JMenuItem easy, JMenuItem medium, JMenuItem hard) {
         this.easy = easy;
         this.medium = medium;
         this.hard = hard;
     }
-    
+
+    /**
+     * Add JMenuitems Related to Custom Game Settings and High Score screens.
+     *
+     * @param customGame
+     * @param hiScore
+     */
     public void addCustomGameAndHiScoreMenuItems(JMenuItem customGame, JMenuItem hiScore) {
         this.customGame = customGame;
         this.hiScore = hiScore;
+    }
+
+    /**
+     * Handles the custom game Event.
+     */
+    private void HandleCustomGameOptions() {
+        int option = createCustomGameOptionPane();
+        handleOptionPaneActions(option);
+    }
+
+    /**
+     * Creates the JOptionPane which contains A JPanel for setting up a custom
+     * game mode.
+     *
+     * @return int value representing either the OK, or the Cancel button on the
+     * JOptionPane
+     */
+    private int createCustomGameOptionPane() {
+        int option = JOptionPane.showConfirmDialog(
+                gui.getFrame(),
+                customFieldPanel,
+                "Custom Game Settings",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        return option;
+    }
+
+    /**
+     * If the OK option is clicked the method will take the information from the
+     * JPanels and uses it as parameters to create a new game. If the fields are
+     * empty or not Integer values, the method will create an error JOptionPane visible to
+     * the user and clears the fields.
+     *
+     * Cancel option will clear the fields and close the window
+     * @param option
+     */
+    private void handleOptionPaneActions(int option) {
+        if (option == JOptionPane.OK_OPTION) {
+            try {
+                int height = customFieldPanel.getHeightCount();
+                int width = customFieldPanel.getWidthCount();
+                int mines = customFieldPanel.getMinesCount();
+
+                gui.createNewGame(height, width, mines);
+                gameLogic = gui.getGameLogic();
+
+            } catch (NumberFormatException e) {
+
+                JOptionPane.showMessageDialog(gui.getFrame(), "Use Numbers");
+                customFieldPanel.clearPanelValues();
+            }
+        } else if (option == JOptionPane.CANCEL_OPTION) {
+            customFieldPanel.clearPanelValues();
+        }
     }
 }
