@@ -1,30 +1,29 @@
 package minesweeper.domain;
 
 /**
+ * Contains information about game cells and has basic methods to change it's
+ * status.
  *
  * @author juri
  */
 public class Cell {
-    
+
     /**
      * Is the cell mined.
      */
     private boolean mine;
-    
     /**
      * Is the cell flagged.
      */
     private boolean flagged;
-    
     /**
      * Is the cell open.
      */
     private boolean open;
-    
     private int adjacentMines;
-    
+
     /**
-     * Minefield class uses Cell to store information. 
+     * Minefield class uses Cell to store information.
      */
     public Cell() {
         this.mine = false;
@@ -32,17 +31,17 @@ public class Cell {
         this.open = false;
         this.adjacentMines = 0;
     }
-    
+
     /**
-     * 
+     *
      * @return Cells flagged status.
      */
     public boolean isFlagged() {
         return flagged;
     }
-    
+
     /**
-     * 
+     *
      * @return Does the cell have a mine.
      */
     public boolean isMine() {
@@ -50,7 +49,7 @@ public class Cell {
     }
 
     /**
-     * 
+     *
      * @return Is the cell open.
      */
     public boolean isOpen() {
@@ -59,12 +58,12 @@ public class Cell {
 
     /**
      * Sets the Cells open status to true.
-     * 
+     *
      * Does nothing if the Cell is flagged or already opened.
      */
     public void setOpen() {
         boolean hasNoFlagAndIsClosed = !this.flagged && !this.open;
-        
+
         if (hasNoFlagAndIsClosed) {
             this.open = true;
         }
@@ -76,11 +75,10 @@ public class Cell {
     public void setMine() {
         this.mine = true;
     }
-    
+
     /**
-     * Toggles the cells flag status.
-     * If the cell is flagged it will remove the flag.
-     * If the cell is not flagged it will flag it.
+     * Toggles the cells flag status. If the cell is flagged it will remove the
+     * flag. If the cell is not flagged it will flag it.
      */
     public void toggleFlag() {
         boolean CellIsClosed = !this.open;
@@ -96,10 +94,10 @@ public class Cell {
     public int getAdjacentMineCount() {
         return this.adjacentMines;
     }
-    
+
     /**
      * Increases the known amount of adjacent mines.
-     * 
+     *
      * Used by minefield class.
      */
     public void increaseAdjacentMineCount() {

@@ -1,0 +1,38 @@
+title Käyttötapaus: pelin Voittaminen(logiikka)
+
+GameListener->gameLogic: toggleCellFlag(x, y)
+gameLogic->minefield: getCell(x, y)
+minefield-->gameLogic: cell
+gameLogic->cell: toggleFlag()
+gameLogic->gameLogic: updateFlaggedCells()
+gameLogic->gameLogic: updateWinCondition()
+
+gameLogic->cell: isOpen()
+cell--> gameLogic: false
+gameLogic->cell: isMine()
+cell--> gameLogic: true
+gameLogic->cell: isFlagged()
+cell--> gameLogic: true
+
+gameLogic->minefield: getMines()
+minefield-->gameLogic: mines
+
+alt flaggedCells == mines
+  gameLogic->gameLogic: checkIfTheWinConditionIsMet()
+  loop for each cell in minefield
+  gameLogic->minefield: getCell(x, y)
+  gameLogic->cell: isMine()
+  cell-->gameLogic: false/true
+  gameLogic->cell: isFlagged()
+  cell-->gameLogic: false/true
+  gameLogic->cell: isOpen()
+  cell-->gameLogic: false/true
+  alt cell is mined and flagged
+    gameLogic->gameLogic: correctCellsFlagged++
+  else cell is open
+    gameLogic->gameLogic: cellsOpened++
+  end
+  alt All correct Cells flagged and every other cell is opened
+    gameLogic->gameLogic: setGameWon()
+   end
+end

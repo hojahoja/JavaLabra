@@ -1,6 +1,5 @@
 package minesweeper.gui;
 
-
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -16,6 +15,8 @@ import minesweeper.domain.FileContainer;
 import minesweeper.logic.GameLogic;
 
 /**
+ * The main frame of the game. JRames content pane contains every part of the
+ * game graphics
  *
  * @author juri
  */
@@ -45,18 +46,19 @@ public class GameGui implements Runnable {
         int preferredY = gameLogic.getFieldHeight() * 98 / 2;
         frame.setPreferredSize(new Dimension(preferredX, preferredY));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        
+
         createComponents(frame.getContentPane());
         frame.pack();
 
         frame.setVisible(true);
     }
+
     /**
      * Adds a JMenuBar to the frame.
-     * 
+     *
      */
-        private void addMenuBar() {
-           frame.setJMenuBar(gameMenuBar);
+    private void addMenuBar() {
+        frame.setJMenuBar(gameMenuBar);
     }
 
     /**
@@ -72,8 +74,8 @@ public class GameGui implements Runnable {
         JPanel mineFieldCells = createMineFieldCells();
         JPanel buttonBar = createButtonBar();
         JPanel infoBar = createInfoBar();
-        
-        
+
+
         mainWindow.add(buttonBar);
         mainWindow.add(mineFieldCells);
         mainWindow.add(infoBar);
@@ -86,12 +88,12 @@ public class GameGui implements Runnable {
      * @return the created JPanel.
      */
     private JPanel createButtonBar() {
-        JPanel buttonBar = new JPanel();        
+        JPanel buttonBar = new JPanel();
         JButton reset = new JButton("Reset Game");
         JLabel status = new JLabel("Still Alive");
-        
+
         frameListener.addResetButton(reset);
-        
+
         gameListener.addStatusLabel(status);
         reset.addActionListener(frameListener);
         buttonBar.add(reset);
@@ -178,29 +180,29 @@ public class GameGui implements Runnable {
             }
         }
     }
-    
+
     /**
-     * Creates a new instance of the gameLogic class with the set parameters and updates the GUI
-     * to show the result. Previous components are removed.
-     * 
+     * Creates a new instance of the gameLogic class with the set parameters and
+     * updates the GUI to show the result. Previous components are removed.
+     *
      * @param height
      * @param width
-     * @param mines 
+     * @param mines
      */
-    public void createNewGame(int height, int width, int mines){
-        gameLogic = new GameLogic(height, width, mines);   
+    public void createNewGame(int height, int width, int mines) {
+        gameLogic = new GameLogic(height, width, mines);
         frame.getContentPane().removeAll();
-        
+
         int preferredX = gameLogic.getFieldWidth() * 85 / 2;
         int preferredY = gameLogic.getFieldHeight() * 98 / 2;
         frame.setPreferredSize(new Dimension(preferredX, preferredY));
-        
+
         createComponents(frame.getContentPane());
-        
+
         frame.pack();
         frame.setVisible(true);
     }
-    
+
     // Getters, nothing to see here...
     public GameLogic getGameLogic() {
         return gameLogic;
@@ -216,8 +218,8 @@ public class GameGui implements Runnable {
 
     private JPanel createInfoBar() {
         JPanel infoBar = new JPanel(new BorderLayout());
-        JLabel flagCount = new JLabel("Flags: 0/"+gameLogic.getMinefield().getMines());
-        
+        JLabel flagCount = new JLabel("Flags: 0/" + gameLogic.getMinefield().getMines());
+
         gameListener.addFlagCountLabel(flagCount);
         infoBar.add(flagCount, BorderLayout.WEST);
         return infoBar;

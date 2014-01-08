@@ -3,6 +3,9 @@ package minesweeper.domain;
 import java.util.Random;
 
 /**
+ * Contains the Information about the minefield and contains all the cells of
+ * the game. Creates the cells and marks basic info(mines and the count of
+ * adjacent mines), but doesn't do operate the cells otherwise
  *
  * @author juri
  */
@@ -78,11 +81,11 @@ public class Minefield {
     /**
      * Makes specified amount of Cells into mines randomly. Uses the Random
      * class to generate a random point (x.y) and makes a cell at that point
-     * into a mine. The method will run until a specified amount of mines are 
+     * into a mine. The method will run until a specified amount of mines are
      * generated.
      */
     private void generateMines() {
-        
+
         Random rng = new Random();
         int hasMines = 0;
 
@@ -103,9 +106,9 @@ public class Minefield {
     /**
      * Increases the mine count for adjacent Cells. Takes a mine at point (x.y)
      * and Increases the mine count of each adjacent Cell.
-     * 
+     *
      * @param x
-     * @param y 
+     * @param y
      */
     public void IncreaseMineCountForAdjacentCells(int x, int y) {
         for (int i = -1; i < 2; i++) {
@@ -119,7 +122,7 @@ public class Minefield {
 
     /**
      * Makes sure that the given location does not go outside of the 2D array.
-     * 
+     *
      * @param j
      * @param i
      * @return Is the given location outside of borders.
@@ -127,12 +130,12 @@ public class Minefield {
     public boolean locationIsInsideMatrixBorders(int j, int i) {
         return i > -1 && i < height && j > -1 && j < width;
     }
-    
+
     /**
      * Only in tests for generating non random mines.
-     * 
+     *
      * @param x
-     * @param y 
+     * @param y
      */
     public void setTestMine(int x, int y) {
         getCell(x, y).setMine();

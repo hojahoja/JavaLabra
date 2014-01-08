@@ -8,7 +8,8 @@ import minesweeper.domain.Cell;
 import minesweeper.domain.Minefield;
 
 /**
- *
+ * The main game engine. Does all the main calculations on algorithms of the game.
+ * The creation of the basic game information is still handled in the Minefield Class
  * @author juri
  */
 public class GameLogic {
@@ -21,9 +22,9 @@ public class GameLogic {
     private boolean gameLost;
 
     /**
-     * The logic class of the game. The constructor takes the specified
+     * The constructor takes the specified
      * parameters and creates the minefield class, which is used to store
-     * information about the game
+     * information about the game.
      *
      * @param height
      * @param width
@@ -210,7 +211,7 @@ public class GameLogic {
     private void updateWinConditon(Cell cell) {
 
         if (cell.isOpen() && cell.isMine() && cell.isFlagged() == false) {
-            gameLost = true;
+            setGameLost();
         }
 
         if (flaggedCells.size() == minefield.getMines()) {
