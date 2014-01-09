@@ -15,7 +15,8 @@ public class GameMenuBar extends JMenuBar {
     private JMenu options;
     private JMenu difficulty;
     private JMenuItem custom;
-    private JMenuItem hiScore;
+    private JMenu hiScore;
+    
 
     /**
      * Creates the JMenuBar for the GameGUI.
@@ -28,12 +29,10 @@ public class GameMenuBar extends JMenuBar {
         this.add(options);
 
         createDifficultySubMenu();
-        this.custom = new JMenuItem("Custom Game");
-        this.hiScore = new JMenuItem("View High Scores");
+        this.custom = new JMenuItem("Custom Game");        
 
         this.custom.addActionListener(frameListener);
-        this.hiScore.addActionListener(frameListener);
-        frameListener.addCustomGameAndHiScoreMenuItems(custom, hiScore);
+        createHighscoreSubMenu();
 
 
         this.options.add(difficulty);
@@ -60,5 +59,21 @@ public class GameMenuBar extends JMenuBar {
         difficulty.add(easy);
         difficulty.add(medium);
         difficulty.add(hard);
+    }
+
+    private void createHighscoreSubMenu() {
+        this.hiScore = new JMenu("View High Scores");
+        JMenuItem easyScore = new JMenuItem("Easy");
+        JMenuItem mediumScore = new JMenuItem("Medium");
+        JMenuItem hardScore = new JMenuItem("Hard");
+        
+        easyScore.addActionListener(frameListener);
+        mediumScore.addActionListener(frameListener);
+        hardScore.addActionListener(frameListener);
+        frameListener.addCustomGameAndHiScoreMenuItems(custom, easyScore, mediumScore, hardScore);
+        
+        hiScore.add(easyScore);
+        hiScore.add(mediumScore);
+        hiScore.add(hardScore);
     }
 }

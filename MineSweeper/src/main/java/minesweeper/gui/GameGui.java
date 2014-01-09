@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import minesweeper.domain.FileContainer;
+import minesweeper.domain.ScoreKeeper;
 import minesweeper.logic.GameLogic;
 
 /**
@@ -31,9 +32,12 @@ public class GameGui implements Runnable {
     private FrameListener frameListener;
     private GameMenuBar gameMenuBar;
     private CountUpTimer countUpTimer;
+    private ScoreKeeper scoreKeeper;
 
     public GameGui() {
         fileContainer = new FileContainer();
+        scoreKeeper = new ScoreKeeper(fileContainer);
+        scoreKeeper.updateScores();
         gameLogic = new GameLogic(8, 8, 10);
         frameListener = new FrameListener(this); // adds the GUI to the listener
         gameMenuBar = new GameMenuBar(frameListener);
@@ -174,7 +178,7 @@ public class GameGui implements Runnable {
      * @param width
      */
     private void addAMouseListenerToCellButtons(int height, int width) {
-        gameListener = new GameListener(fieldButtons, gameLogic, fileContainer, countUpTimer);
+        gameListener = new GameListener(fieldButtons, gameLogic, fileContainer, countUpTimer, scoreKeeper);
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -186,10 +190,14 @@ public class GameGui implements Runnable {
     private JPanel createInfoBar() {
         JPanel infoBar = new JPanel(new BorderLayout());
         JLabel flagCount = new JLabel("Flags: 0/" + gameLogic.getMinefield().getMines());
+        JLabel difficulty = new JLabel("       Difficulty: Easy");
 
         gameListener.addFlagCountLabel(flagCount);
+        gameListener.addDifficultyLabel(difficulty);
+        frameListener.addDifficultyLabel(difficulty);
         infoBar.add(flagCount, BorderLayout.WEST);
         infoBar.add(countUpTimer.getTimeLabel(), BorderLayout.EAST);
+        infoBar.add(difficulty, BorderLayout.CENTER);
         countUpTimer.resetTimer();
         return infoBar;
     }
@@ -219,6 +227,10 @@ public class GameGui implements Runnable {
     // Getters, nothing to see here...
     public GameLogic getGameLogic() {
         return gameLogic;
+    }
+    
+    public ScoreKeeper getScoreKeeper() {
+        return  scoreKeeper;
     }
 
     public JFrame getFrame() {

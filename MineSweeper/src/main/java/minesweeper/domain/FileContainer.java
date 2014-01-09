@@ -9,7 +9,9 @@ import javax.swing.ImageIcon;
  */
 public class FileContainer {
 
-    private File scoreFile;
+    private File easyScore;
+    private File mediumScore;
+    private File hardScore;
     private ImageIcon flagIcon;
     private ImageIcon bombIcon;
     private ImageIcon emptyIcon;
@@ -21,14 +23,24 @@ public class FileContainer {
      * all the method calls create a Class with a specified path to the file.
      */
     public FileContainer() {
-        this.scoreFile = setUpTextFile();
+        this.easyScore = setUpEasyScoreFile();
+        this.mediumScore = setUpMediumScoreFile();
+        this.hardScore = setUpHardScoreFile();
         this.flagIcon = setUpFlagIcon();
         this.bombIcon = setUpBombIcon();
         this.emptyIcon = setUpEmptyIcon();
     }
     
-    private File setUpTextFile() {
+    private File setUpEasyScoreFile() {
         return new File("src/main/resources/easyScore");
+    }
+    
+    private File setUpMediumScoreFile() {
+        return new File("src/main/resources/mediumScore");
+    }
+    
+    private File setUpHardScoreFile() {
+        return new File("src/main/resources/hardScore");
     }
 
     private ImageIcon setUpFlagIcon() {
@@ -43,8 +55,16 @@ public class FileContainer {
         return new ImageIcon("src/main/resources/Empty.png");
     }
 
-    public File getScoreFile() {
-        return scoreFile;
+    public File getEasyScoreFile() {
+        return easyScore;
+    }
+    
+    public File getMediumScoreFile() {
+        return mediumScore;
+    }
+    
+    public File getHardScoreFile() {
+        return hardScore;
     }
 
     public ImageIcon getFlagIcon() {

@@ -4,11 +4,16 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.TreeMap;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import minesweeper.domain.FileContainer;
+import minesweeper.domain.ScoreKeeper;
 import minesweeper.logic.GameLogic;
+import minesweeper.domain.Score;
 
 /**
  *
@@ -21,7 +26,10 @@ public class GameListener implements MouseListener {
     private FileContainer fileContainer;
     private JLabel status;
     private JLabel flagCount;
+    private JLabel difficultyLabel;
     private CountUpTimer countUpTimer;
+    private ScoreKeeper scoreKeeper;
+    private boolean doneChecking;
 
     /**
      * The listener class of the game
@@ -30,11 +38,19 @@ public class GameListener implements MouseListener {
      * @param gameLogic
      * @param fileContainer
      */
-    public GameListener(JButton[][] fieldButtons, GameLogic gameLogic, FileContainer fileContainer, CountUpTimer countUpTimer) {
+    public GameListener(
+            JButton[][] fieldButtons,
+            GameLogic gameLogic,
+            FileContainer fileContainer,
+            CountUpTimer countUpTimer,
+            ScoreKeeper scoreKeeper) {
+
         this.fieldButtons = fieldButtons;
         this.gameLogic = gameLogic;
         this.fileContainer = fileContainer;
         this.countUpTimer = countUpTimer;
+        this.scoreKeeper = scoreKeeper;
+        this.doneChecking = false;
     }
 
     /**
@@ -49,6 +65,10 @@ public class GameListener implements MouseListener {
 
     public void addFlagCountLabel(JLabel flagCount) {
         this.flagCount = flagCount;
+    }
+
+    public void addDifficultyLabel(JLabel difficulty) {
+        this.difficultyLabel = difficulty;
     }
 
     @Override
@@ -203,22 +223,76 @@ public class GameListener implements MouseListener {
     }
 
     /**
-     * If the game is lost or won the JLabel is updated accordingly.
+     * If the game is lost or won the JLabel is updated accordingly. and the
+     * timer is stopped
      *
      */
     private void winLoseUpdate() {
         if (gameLogic.isGameWon()) {
             status.setText("Flawless Victory");
+            countUpTimer.stop();
+            checkHighScores();
         }
 
         if (gameLogic.isGameLost()) {
             status.setText("Bitter Defeat");
-        }
-        
-        boolean gameHasEnded = gameLogic.isGameLost() || gameLogic.isGameWon();
-        if (gameHasEnded) {
             countUpTimer.stop();
         }
+    }
+
+    /**
+     * Checks for current difficulty settings and calls scorekeeper to evaluate
+     * the finish time for possible high scores. calls for a method to add the
+     * new score if is in the top 10.
+     *
+     */
+    private void checkHighScores() {
+        if (doneChecking) {
+            return;
+        }
+
+        String difficulty = difficultyLabel.getText().toLowerCase();
+        String time = countUpTimer.getTime();
+        TreeMap<Integer, Score> currentScore;
+        int position;
+
+        if (difficulty.contains("easy")) {
+            currentScore = scoreKeeper.getEasyScores();
+            position = scoreKeeper.evaluateTime(time, currentScore);
+        } else if (difficulty.contains("medium")) {
+            currentScore = scoreKeeper.getMediumScores();
+            position = scoreKeeper.evaluateTime(time, currentScore);
+        } else if (difficulty.contains("hard")) {
+            currentScore = scoreKeeper.getHardScores();
+            position = scoreKeeper.evaluateTime(time, currentScore);
+        } else {
+            return;
+        }
+
+        addNewHighScore(position, currentScore);
+    }
+
+    private void addNewHighScore(int position, TreeMap<Integer, Score> currentScore) {
+        String name = askForName();
+        System.out.println(name);
+        doneChecking = true;
+    }
+
+    /**
+     * Creates a window that asks for the users name.
+     *
+     * @return
+     */
+    private String askForName() {
+        String name = "";
+        while (name.isEmpty()) {
+            name = (String) JOptionPane.showInputDialog("Type your name here:");
+            if (name == null) {
+                name = "";
+            }
+        }
+
+        return name;
     }
 
     // Unused methods that are only here because the 

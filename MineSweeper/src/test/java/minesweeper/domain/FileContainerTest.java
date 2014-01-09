@@ -36,10 +36,25 @@ public class FileContainerTest {
     }
     
     @Test
-    public void canReadAndWriteToScoreFile() {
-        File testFile = testContainer.getScoreFile();
-        assertTrue(testFile.canRead());
-        assertTrue(testFile.canWrite());
+    public void canReadAndWriteToScoreFiles() {
+        File testEasyFile = testContainer.getEasyScoreFile();
+        File testMediumFile = testContainer.getMediumScoreFile();
+        File testHardFile = testContainer.getHardScoreFile();
+        
+        assertTrue(testEasyFile.canRead() && testMediumFile.canRead() && testHardFile.canRead());
+        assertTrue(testEasyFile.canWrite() && testMediumFile.canWrite() && testHardFile.canWrite());
+    }
+    
+    @Test
+    public void scoreFilesAreInTheCorrectFileObject() {
+        File testEasy = new File("src/main/resources/easyScore");
+        File testMedium = new File("src/main/resources/mediumScore");
+        File testHard = new File("src/main/resources/hardScore");
+        
+        assertEquals(testEasy, testContainer.getEasyScoreFile());
+        assertEquals(testMedium, testContainer.getMediumScoreFile());
+        assertEquals(testHard, testContainer.getHardScoreFile());
+                
     }
     
     @Test
