@@ -30,12 +30,14 @@ public class GameGui implements Runnable {
     private GameListener gameListener;
     private FrameListener frameListener;
     private GameMenuBar gameMenuBar;
+    private CountUpTimer countUpTimer;
 
     public GameGui() {
         fileContainer = new FileContainer();
         gameLogic = new GameLogic(8, 8, 10);
         frameListener = new FrameListener(this); // adds the GUI to the listener
         gameMenuBar = new GameMenuBar(frameListener);
+        countUpTimer = new CountUpTimer();
     }
 
     @Override
@@ -172,13 +174,24 @@ public class GameGui implements Runnable {
      * @param width
      */
     private void addAMouseListenerToCellButtons(int height, int width) {
-        gameListener = new GameListener(fieldButtons, gameLogic, fileContainer);
+        gameListener = new GameListener(fieldButtons, gameLogic, fileContainer, countUpTimer);
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 fieldButtons[i][j].addMouseListener(gameListener);
             }
         }
+    }
+
+    private JPanel createInfoBar() {
+        JPanel infoBar = new JPanel(new BorderLayout());
+        JLabel flagCount = new JLabel("Flags: 0/" + gameLogic.getMinefield().getMines());
+
+        gameListener.addFlagCountLabel(flagCount);
+        infoBar.add(flagCount, BorderLayout.WEST);
+        infoBar.add(countUpTimer.getTimeLabel(), BorderLayout.EAST);
+        countUpTimer.resetTimer();
+        return infoBar;
     }
 
     /**
@@ -214,14 +227,5 @@ public class GameGui implements Runnable {
 
     public JButton[][] getFieldButtons() {
         return fieldButtons;
-    }
-
-    private JPanel createInfoBar() {
-        JPanel infoBar = new JPanel(new BorderLayout());
-        JLabel flagCount = new JLabel("Flags: 0/" + gameLogic.getMinefield().getMines());
-
-        gameListener.addFlagCountLabel(flagCount);
-        infoBar.add(flagCount, BorderLayout.WEST);
-        return infoBar;
     }
 }

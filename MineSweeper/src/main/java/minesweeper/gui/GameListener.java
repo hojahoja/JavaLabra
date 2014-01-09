@@ -16,35 +16,12 @@ import minesweeper.logic.GameLogic;
  */
 public class GameListener implements MouseListener {
 
-    //Turhia meteodeja ohjelman kannalta, jotka kuitenkin luodaan, jotta
-    //rajapinta toteutuisi.    
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-    }
-    /*
-     *
-     *
-     * Turhat metodit siiretty toistaiseksi pois häiritsemästä. Kun luokka on
-     * valmiimpi siirretään ne pois ihmisten silmistä.
-     *
-     */
     private JButton[][] fieldButtons;
     private GameLogic gameLogic;
     private FileContainer fileContainer;
     private JLabel status;
     private JLabel flagCount;
+    private CountUpTimer countUpTimer;
 
     /**
      * The listener class of the game
@@ -53,10 +30,11 @@ public class GameListener implements MouseListener {
      * @param gameLogic
      * @param fileContainer
      */
-    public GameListener(JButton[][] fieldButtons, GameLogic gameLogic, FileContainer fileContainer) {
+    public GameListener(JButton[][] fieldButtons, GameLogic gameLogic, FileContainer fileContainer, CountUpTimer countUpTimer) {
         this.fieldButtons = fieldButtons;
         this.gameLogic = gameLogic;
         this.fileContainer = fileContainer;
+        this.countUpTimer = countUpTimer;
     }
 
     /**
@@ -68,7 +46,7 @@ public class GameListener implements MouseListener {
     public void addStatusLabel(JLabel status) {
         this.status = status;
     }
-    
+
     public void addFlagCountLabel(JLabel flagCount) {
         this.flagCount = flagCount;
     }
@@ -81,6 +59,7 @@ public class GameListener implements MouseListener {
 
         if (event.getButton() == MouseEvent.BUTTON1) {
             gameLogic.openCell(buttonCoordinates.x, buttonCoordinates.y);
+            countUpTimer.start();
         } else if (event.getButton() == MouseEvent.BUTTON3) {
             gameLogic.toggleCellFlag(buttonCoordinates.x, buttonCoordinates.y);
         }
@@ -110,8 +89,7 @@ public class GameListener implements MouseListener {
     }
 
     /**
-     * Goes trough all of the JButtons and calls methods that update the
-     * GUI.
+     * Goes trough all of the JButtons and calls methods that update the GUI.
      *
      * @param height
      * @param width
@@ -219,14 +197,14 @@ public class GameListener implements MouseListener {
                 fieldButtons[i][j].setIcon(fileContainer.getEmptyIcon());
             }
         }
-        
-        String flagCounterText = "Flags: "+flags+"/"+gameLogic.getMinefield().getMines();
+
+        String flagCounterText = "Flags: " + flags + "/" + gameLogic.getMinefield().getMines();
         flagCount.setText(flagCounterText);
     }
 
     /**
      * If the game is lost or won the JLabel is updated accordingly.
-     * 
+     *
      */
     private void winLoseUpdate() {
         if (gameLogic.isGameWon()) {
@@ -236,5 +214,28 @@ public class GameListener implements MouseListener {
         if (gameLogic.isGameLost()) {
             status.setText("Bitter Defeat");
         }
+        
+        boolean gameHasEnded = gameLogic.isGameLost() || gameLogic.isGameWon();
+        if (gameHasEnded) {
+            countUpTimer.stop();
+        }
+    }
+
+    // Unused methods that are only here because the 
+    // implementations of MouseListener needs the to be here.
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }
