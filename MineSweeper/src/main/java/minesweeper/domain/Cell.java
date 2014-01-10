@@ -20,11 +20,13 @@ public class Cell {
      * Is the cell open.
      */
     private boolean open;
+    
+    /**
+     * Cells adjacent mine count.
+     */
     private int adjacentMines;
 
-    /**
-     * Minefield class uses Cell to store information.
-     */
+
     public Cell() {
         this.mine = false;
         this.flagged = false;

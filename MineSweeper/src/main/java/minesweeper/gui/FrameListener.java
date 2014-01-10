@@ -64,7 +64,7 @@ public class FrameListener implements ActionListener {
         gameLogic.resetGame();
         gui.getFrame().getContentPane().removeAll();
         gui.createComponents(gui.getFrame().getContentPane());
-        
+
         difficultyLabel.setText(difficultySetting);
         gui.getFrame().setVisible(true);
     }
@@ -79,12 +79,15 @@ public class FrameListener implements ActionListener {
         if (source == easy) {
             gui.createNewGame(8, 8, 10);
             difficultyLabel.setText("       Difficulty: Easy");
+            gui.getScoreChecker().setDifficultyToEasy();
         } else if (source == medium) {
             gui.createNewGame(16, 16, 40);
             difficultyLabel.setText("       Difficulty: Medium");
+            gui.getScoreChecker().setDifficultyToMedium();
         } else if (source == hard) {
             gui.createNewGame(16, 30, 99);
             difficultyLabel.setText("       Difficulty: Hard");
+            gui.getScoreChecker().setDifficultyToHard();
         }
 
         gameLogic = gui.getGameLogic();
@@ -98,7 +101,7 @@ public class FrameListener implements ActionListener {
     public void addResetButton(JButton reset) {
         this.reset = reset;
     }
-    
+
     public void addDifficultyLabel(JLabel difficultyLabel) {
         this.difficultyLabel = difficultyLabel;
     }
@@ -174,6 +177,7 @@ public class FrameListener implements ActionListener {
 
                 gui.createNewGame(height, width, mines);
                 difficultyLabel.setText("       Difficulty: Custom");
+                gui.getScoreChecker().setDifficultyToCustom();
                 gameLogic = gui.getGameLogic();
 
             } catch (NumberFormatException e) {
@@ -185,9 +189,10 @@ public class FrameListener implements ActionListener {
             customFieldPanel.clearPanelValues();
         }
     }
+
     /**
      * Checks the event source and gets the correct Array from scoreKeeper.
-     * 
+     *
      * @param source event source
      */
     private void handleGameScores(Object source) {
@@ -202,10 +207,10 @@ public class FrameListener implements ActionListener {
 
     /**
      * Creates an JOptionPane that shows the score taken from the scoreArray
-     * 
-     * @param scoreArray 
+     *
+     * @param scoreArray
      */
     private void createScoreWindow(String[] scoreArray) {
-        JOptionPane.showMessageDialog(gui.getFrame(), scoreArray);
+        JOptionPane.showMessageDialog(gui.getFrame(), scoreArray, "High Scores", JOptionPane.INFORMATION_MESSAGE);
     }
 }

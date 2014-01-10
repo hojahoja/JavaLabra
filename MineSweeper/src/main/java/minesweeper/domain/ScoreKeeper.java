@@ -2,6 +2,8 @@ package minesweeper.domain;
 
 import java.io.FileNotFoundException;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -28,7 +30,7 @@ public class ScoreKeeper {
     private void setUpScore(TreeMap<Integer, Score> scoreMap, File scoreFile) {
 
         try {
-            scanner = new Scanner(scoreFile);
+            scanner = new Scanner(scoreFile, "UTF-8");
             while (scanner.hasNextLine()) {
                 String scoreLine = scanner.nextLine();
                 String[] scoreParts = scoreLine.split(",");
@@ -41,7 +43,7 @@ public class ScoreKeeper {
             }
 
             scanner.close();
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | NumberFormatException e) {
             e.getMessage();
         }
 

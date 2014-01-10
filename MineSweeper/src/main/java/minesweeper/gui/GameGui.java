@@ -23,21 +23,61 @@ import minesweeper.logic.GameLogic;
  */
 public class GameGui implements Runnable {
 
+    /**
+     * The main JFrame of the GUI It's contentPane contains every graphical
+     * component fo the game, not including couple generated JOptionPanes.
+     */
     private JFrame frame;
+    /**
+     * GameLogic is generated GUI.
+     */
     private GameLogic gameLogic;
+    /**
+     * 2D array that contains the JButtons which works as clickable cells of the
+     * game.
+     */
     private JButton fieldButtons[][];
+    /**
+     * FileContainer is generated with the GUI.
+     */
     private FileContainer fileContainer;
+    /**
+     * This JPanel contains all the visual components besides the gameMenuBar.
+     */
     private JPanel mainWindow;
+    /**
+     * The main listener of the game field.
+     */
     private GameListener gameListener;
+    /**
+     * The main listener of the graphical components.
+     */
     private FrameListener frameListener;
+    /**
+     * The JMenubar of the frame.
+     */
     private GameMenuBar gameMenuBar;
+    /**
+     * The timer of the game.
+     */
     private CountUpTimer countUpTimer;
+    /**
+     * Has the score information
+     */
     private ScoreKeeper scoreKeeper;
+    /**
+     * Used to check and update the score
+     */
+    private ScoreChecker scoreChecker;
 
+    /**
+     * The game is set up for easy mode when it's first created.
+     */
     public GameGui() {
         fileContainer = new FileContainer();
         scoreKeeper = new ScoreKeeper(fileContainer);
         scoreKeeper.updateScores();
+        scoreChecker = new ScoreChecker(scoreKeeper, this, fileContainer);
         gameLogic = new GameLogic(8, 8, 10);
         frameListener = new FrameListener(this); // adds the GUI to the listener
         gameMenuBar = new GameMenuBar(frameListener);
@@ -49,7 +89,7 @@ public class GameGui implements Runnable {
         frame = new JFrame("Minesweeper9001");
         addMenuBar();
         int preferredX = gameLogic.getFieldWidth() * 85 / 2;
-        int preferredY = gameLogic.getFieldHeight() * 98 / 2;
+        int preferredY = gameLogic.getFieldHeight() * 100 / 2;
         frame.setPreferredSize(new Dimension(preferredX, preferredY));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,7 +111,7 @@ public class GameGui implements Runnable {
      * Creates the components used in the gameplay GUI. Creates the main JPabel
      * that will contains the minefield JPanel and other information.
      *
-     * @param contentPane
+     * @param contentPane JFrames' contentPane
      */
     public void createComponents(Container contentPane) {
         mainWindow = new JPanel();
@@ -135,8 +175,8 @@ public class GameGui implements Runnable {
      * Creates the buttons that will be contained inside the mineFieldCells
      * JPanel
      *
-     * @param height
-     * @param width
+     * @param height determines the amount of mines
+     * @param width determines the amount of mines
      */
     private void createMineFieldButtons(int height, int width) {
 
@@ -156,8 +196,8 @@ public class GameGui implements Runnable {
      * JButton will always have a default icon. This is needed for the Bomb icon
      * to work properly as a DisableButtonIcon.
      *
-     * @param i
-     * @param j
+     * @param i coordinate
+     * @param j coordinate
      */
     private void setMineFieldIcons(int i, int j) {
         JButton button = fieldButtons[i][j];
@@ -174,11 +214,11 @@ public class GameGui implements Runnable {
     /**
      * Adds the GameListener to JButtons.
      *
-     * @param height
-     * @param width
+     * @param height size
+     * @param width size
      */
     private void addAMouseListenerToCellButtons(int height, int width) {
-        gameListener = new GameListener(fieldButtons, gameLogic, fileContainer, countUpTimer, scoreKeeper);
+        gameListener = new GameListener(fieldButtons, gameLogic, fileContainer, countUpTimer, scoreChecker);
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -187,13 +227,18 @@ public class GameGui implements Runnable {
         }
     }
 
+    /**
+     * Creates the lower information bar which contains basic information about the game
+     * and has a running clock
+     *
+     * @return InforBar JPanel
+     */
     private JPanel createInfoBar() {
         JPanel infoBar = new JPanel(new BorderLayout());
         JLabel flagCount = new JLabel("Flags: 0/" + gameLogic.getMinefield().getMines());
         JLabel difficulty = new JLabel("       Difficulty: Easy");
 
         gameListener.addFlagCountLabel(flagCount);
-        gameListener.addDifficultyLabel(difficulty);
         frameListener.addDifficultyLabel(difficulty);
         infoBar.add(flagCount, BorderLayout.WEST);
         infoBar.add(countUpTimer.getTimeLabel(), BorderLayout.EAST);
@@ -206,16 +251,16 @@ public class GameGui implements Runnable {
      * Creates a new instance of the gameLogic class with the set parameters and
      * updates the GUI to show the result. Previous components are removed.
      *
-     * @param height
-     * @param width
-     * @param mines
+     * @param height of the new game
+     * @param width of the new game
+     * @param mines in the new game
      */
     public void createNewGame(int height, int width, int mines) {
         gameLogic = new GameLogic(height, width, mines);
         frame.getContentPane().removeAll();
 
         int preferredX = gameLogic.getFieldWidth() * 85 / 2;
-        int preferredY = gameLogic.getFieldHeight() * 98 / 2;
+        int preferredY = gameLogic.getFieldHeight() * 100 / 2;
         frame.setPreferredSize(new Dimension(preferredX, preferredY));
 
         createComponents(frame.getContentPane());
@@ -228,9 +273,13 @@ public class GameGui implements Runnable {
     public GameLogic getGameLogic() {
         return gameLogic;
     }
-    
+
     public ScoreKeeper getScoreKeeper() {
-        return  scoreKeeper;
+        return scoreKeeper;
+    }
+
+    public ScoreChecker getScoreChecker() {
+        return scoreChecker;
     }
 
     public JFrame getFrame() {

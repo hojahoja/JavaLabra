@@ -46,7 +46,7 @@ public class GameMenuBar extends JMenuBar {
      *
      */
     private void createDifficultySubMenu() {
-        difficulty = new JMenu("Set Difficuly");
+        difficulty = new JMenu("Set Difficulty");
         JMenuItem easy = new JMenuItem("Easy (8x8, 10 Mines)");
         JMenuItem medium = new JMenuItem("Medium (16x16, 40 Mines)");
         JMenuItem hard = new JMenuItem("Hard (16x30, 99 Mines)");

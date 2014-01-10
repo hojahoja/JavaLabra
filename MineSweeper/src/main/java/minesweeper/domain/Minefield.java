@@ -15,11 +15,18 @@ public class Minefield {
      * A 2D array that's contains all the cells created by the Minefield class.
      */
     private Cell[][] field;
+    
     /**
-     * Basic information about the Minefield.
+     * Minefield height.
      */
     private int height;
+    /**
+     * Minefield width.
+     */
     private int width;
+    /**
+     * The amount of mines in the minefield.
+     */
     private int mines;
 
     /**
@@ -57,8 +64,8 @@ public class Minefield {
     /**
      * Get the specified cell.
      *
-     * @param x
-     * @param y
+     * @param x coordinate of the 2D array
+     * @param y coordinate of the 2D array
      * @return the cell in the point (x.y) of the 2D array
      */
     public Cell getCell(int x, int y) {
@@ -107,8 +114,8 @@ public class Minefield {
      * Increases the mine count for adjacent Cells. Takes a mine at point (x.y)
      * and Increases the mine count of each adjacent Cell.
      *
-     * @param x
-     * @param y
+     * @param x coordinate
+     * @param y coordinate
      */
     public void IncreaseMineCountForAdjacentCells(int x, int y) {
         for (int i = -1; i < 2; i++) {
@@ -123,8 +130,8 @@ public class Minefield {
     /**
      * Makes sure that the given location does not go outside of the 2D array.
      *
-     * @param j
-     * @param i
+     * @param j x coordinate
+     * @param i y coordinate
      * @return Is the given location outside of borders.
      */
     public boolean locationIsInsideMatrixBorders(int j, int i) {
@@ -134,8 +141,8 @@ public class Minefield {
     /**
      * Only in tests for generating non random mines.
      *
-     * @param x
-     * @param y
+     * @param x coordinate
+     * @param y coordinate
      */
     public void setTestMine(int x, int y) {
         getCell(x, y).setMine();

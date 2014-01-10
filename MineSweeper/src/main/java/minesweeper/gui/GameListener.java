@@ -26,9 +26,8 @@ public class GameListener implements MouseListener {
     private FileContainer fileContainer;
     private JLabel status;
     private JLabel flagCount;
-    private JLabel difficultyLabel;
     private CountUpTimer countUpTimer;
-    private ScoreKeeper scoreKeeper;
+    private ScoreChecker scoreChecker;
     private boolean doneChecking;
 
     /**
@@ -43,14 +42,14 @@ public class GameListener implements MouseListener {
             GameLogic gameLogic,
             FileContainer fileContainer,
             CountUpTimer countUpTimer,
-            ScoreKeeper scoreKeeper) {
+            ScoreChecker scoreChecker) {
 
         this.fieldButtons = fieldButtons;
         this.gameLogic = gameLogic;
         this.fileContainer = fileContainer;
         this.countUpTimer = countUpTimer;
-        this.scoreKeeper = scoreKeeper;
         this.doneChecking = false;
+        this.scoreChecker = scoreChecker;
     }
 
     /**
@@ -65,10 +64,6 @@ public class GameListener implements MouseListener {
 
     public void addFlagCountLabel(JLabel flagCount) {
         this.flagCount = flagCount;
-    }
-
-    public void addDifficultyLabel(JLabel difficulty) {
-        this.difficultyLabel = difficulty;
     }
 
     @Override
@@ -250,49 +245,10 @@ public class GameListener implements MouseListener {
         if (doneChecking) {
             return;
         }
-
-        String difficulty = difficultyLabel.getText().toLowerCase();
+        
         String time = countUpTimer.getTime();
-        TreeMap<Integer, Score> currentScore;
-        int position;
-
-        if (difficulty.contains("easy")) {
-            currentScore = scoreKeeper.getEasyScores();
-            position = scoreKeeper.evaluateTime(time, currentScore);
-        } else if (difficulty.contains("medium")) {
-            currentScore = scoreKeeper.getMediumScores();
-            position = scoreKeeper.evaluateTime(time, currentScore);
-        } else if (difficulty.contains("hard")) {
-            currentScore = scoreKeeper.getHardScores();
-            position = scoreKeeper.evaluateTime(time, currentScore);
-        } else {
-            return;
-        }
-
-        addNewHighScore(position, currentScore);
-    }
-
-    private void addNewHighScore(int position, TreeMap<Integer, Score> currentScore) {
-        String name = askForName();
-        System.out.println(name);
+        scoreChecker.evaluateScore(time);
         doneChecking = true;
-    }
-
-    /**
-     * Creates a window that asks for the users name.
-     *
-     * @return
-     */
-    private String askForName() {
-        String name = "";
-        while (name.isEmpty()) {
-            name = (String) JOptionPane.showInputDialog("Type your name here:");
-            if (name == null) {
-                name = "";
-            }
-        }
-
-        return name;
     }
 
     // Unused methods that are only here because the 

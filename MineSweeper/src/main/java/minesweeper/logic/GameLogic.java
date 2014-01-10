@@ -26,9 +26,9 @@ public class GameLogic {
      * parameters and creates the minefield class, which is used to store
      * information about the game.
      *
-     * @param height
-     * @param width
-     * @param mines
+     * @param height of the game
+     * @param width of the game
+     * @param mines in the game
      */
     public GameLogic(int height, int width, int mines) {
         this.minefield = new Minefield(height, width, mines);
@@ -43,8 +43,8 @@ public class GameLogic {
      * Opens a cell at point (x.y) and Calls a method to open adjacent cell.
      *
      *
-     * @param x
-     * @param y
+     * @param x coordinate
+     * @param y coordinate
      */
     public void openCell(int x, int y) {
         Cell cell = minefield.getCell(x, y);
@@ -150,12 +150,16 @@ public class GameLogic {
      * @param y
      */
     private void breadhFirstSearchCellOpener(Cell cell, int x, int y) {
+        // These lines set up the Queue used by the BFS
+        // and the set which is used
         ArrayDeque<Point> checkQueue = new ArrayDeque<>();
         Set<Cell> visited = new HashSet<>();
         checkQueue.add(new Point(x, y));
         visited.add(cell);
 
         while (checkQueue.isEmpty() == false && gameLost == false) {
+            // Point class is used in the BFS-queue for easy acces to the coordinates.
+            // This makes checking the adjacent cells simple.
             Point currentCell = checkQueue.poll();
             x = currentCell.x;
             y = currentCell.y;
@@ -168,11 +172,16 @@ public class GameLogic {
                         Point nextAdjacentPoint = new Point(x + j, y + i);
                         boolean cellIsNotAlreadyVisited = !visited.contains(nextAdjacentCell);
 
+                        // If the cell is not already visited it will be added to the set
+                        // which contains all the visited cells and it will be opened
+                        // Each time a cell is opened the win condition is also checked.
                         if (cellIsNotAlreadyVisited) {
                             visited.add(nextAdjacentCell);
                             nextAdjacentCell.setOpen();
                             updateWinConditon(nextAdjacentCell);
 
+                            // If the cell doesn't have other adjacent cells it will be added
+                            // to it's adjacent cells will also be checked.
                             if (nextAdjacentCell.getAdjacentMineCount() < 1) {
                                 checkQueue.add(nextAdjacentPoint);
                             }
