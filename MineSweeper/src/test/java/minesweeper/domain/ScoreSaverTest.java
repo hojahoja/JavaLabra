@@ -18,6 +18,8 @@ import static org.junit.Assert.*;
  * @author juri
  */
 public class ScoreSaverTest {
+    private FileContainer fileContainer;
+    
     
     public ScoreSaverTest() {
     }
@@ -32,35 +34,12 @@ public class ScoreSaverTest {
     
     @Before
     public void setUp() {
+        fileContainer = new FileContainer();
     }
     
     @After
     public void tearDown() {
     }
-//
-//    /**
-//     * Test of setUpFileForOverwriting method, of class ScoreSaver.
-//     */
-//    @Test
-//    public void testSetUpFileForOverwriting() {
-//        System.out.println("setUpFileForOverwriting");
-//        File scoreFile = null;
-//        TreeMap<Integer, Score> scoreMap = null;
-//        ScoreSaver instance = new ScoreSaver();
-//        instance.setUpFileForOverwriting(scoreFile, scoreMap);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of writeNewScoreToFile method, of class ScoreSaver.
-//     */
-//    @Test
-//    public void testWriteNewScoreToFile() {
-//        System.out.println("writeNewScoreToFile");
-//        ScoreSaver instance = new ScoreSaver();
-//        instance.writeNewScoreToFile();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+
+    
 }

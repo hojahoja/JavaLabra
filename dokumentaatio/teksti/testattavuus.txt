@@ -9,3 +9,8 @@ GameLogic:
   kannalta hirvittävä menetys, jos metodia kutsutaan if lauseesta huolimatta.
 
   IndexIsValid: Metodi kutsuu ainoastaan minefieldin metodia, joka on jo testattu toimivaksi...
+
+ScoreSaver testitiedosto ei löydä omaa luokkaansa enkä saanut selivtettyä mistä se johtuu.
+Ominaisuuksia olit tästä syystä hankala testata JUnit testeillä.
+Tiedostoon kirjoittamista on kuitenkin testattu kattavasti pelaamalla peliä ja kokeilemalla, että se tosiaan toimii
+

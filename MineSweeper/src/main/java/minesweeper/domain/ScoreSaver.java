@@ -66,4 +66,13 @@ public class ScoreSaver {
 
         return saveScoreArray;
     }
+
+    public File getScoreFile() {
+        return scoreFile;
+    }
+
+    public TreeMap<Integer, Score> getScoreMap() {
+        return scoreMap;
+    }   
+    
 }
