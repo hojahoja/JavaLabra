@@ -99,8 +99,10 @@ public class ScoreKeeper {
 
         for (int i = 0; i < 10; i++) {
             Integer[] compare = createComparableTime(scoreMap.get(i).getTime());
+            
             boolean newScoreTookLessInMInutes = evalTime[0] < compare[0];
             boolean newScoreTookLessInSeconds = evalTime[0] == compare[0] && evalTime[1] < compare[1];
+            
             if (newScoreTookLessInMInutes) {
                 return i;
             } else if (newScoreTookLessInSeconds) {
@@ -117,7 +119,7 @@ public class ScoreKeeper {
      * @param time time in string format ex(20:13)
      * @return Time split into two parts inside an Integer array
      */
-    private Integer[] createComparableTime(String time) {
+    public Integer[] createComparableTime(String time) {
         Integer[] comparableTime = new Integer[2];
         String[] splitTime = time.split(":");
 

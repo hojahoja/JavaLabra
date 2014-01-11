@@ -100,7 +100,7 @@ public class FileContainer {
      *
      * @param file object
      */
-    private void checkIfFileExists(File file) {
+    public void checkIfFileExists(File file) {
         if (file.exists() == false) {
             try {
                 file.createNewFile();

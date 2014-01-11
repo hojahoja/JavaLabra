@@ -2,12 +2,18 @@
 
   Cell:	pelin perus soluLuokka
 	
-  MineField: Pelin kenttä. Konstruktoriin voi antaa miinakentän leveyden 			korkeuden, sekä miinojen määrän
+  MineField: Pelin kenttä. Konstruktoriin voi antaa miinakentän leveyden,
+  korkeuden, sekä miinojen määrän
 
 
   StopWatch: Olio joka ottaa aikaa pelin kulusta.
 
-  ScoreKeeper: Olio pitää kirjaa parhaista ajoista tekstitiedostossa ja käyttää 		ajanottoa varten StopWatch oliota
+  Score: Apuluokka, joka pitää sisällään ennätyksen ajan ja ennätyksentekijän antaman nimen.
+
+  ScoreKeeper: Olio pitää kirjaa parhaista ajoista tekstitiedostossa ja käyttää
+ 		ajanottoa varten StopWatch oliota.
+
+  ScoreSaver: Kirjottaa tiedostoon mahdolliset uudet ennätykset
 
   FileContainer: Olio hakee ja ottaa käyttövalmiiksi tarvittavat koodin
 		ulkopuoliset tiedostot. tiedostoja haetaan gettereillä.
@@ -20,9 +26,15 @@ Package: logic
 
 Package: gui
 
-GUI:		Graafinen käyttöliittymä
 
+  GUI:		Graafinen käyttöliittymä
 
+  Kuuntelijat:  Kaksi kuuntelijaa toinen ottaa kuuntelee eventtejä peli kentästä ja
+		toinen käyttöliittymän muista kohteistsa(menut, muut napit)
+
+  Timer:	Aajastin, jonka perusteella myös ennätykset määritellään.
+
+  
 
 /////////////
 Ehkä jatkossa

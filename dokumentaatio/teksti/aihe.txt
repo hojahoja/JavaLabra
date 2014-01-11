@@ -24,6 +24,7 @@ Toiminnot:
   * Pelikentän nopea resetoiminen.
   * Nimimerkin kirjaaminen ennätykseen
       -Vain jos pääsee kymmenen parhaan joukkoon
+  * Ennätysten selaaminen
   * Vaikeustason valitseminen valmiiksi määritellyistä vaihtoehdoista.
   * Omien kenttäasetusten tekeminen.
   * Huikea äänimaailma(pyritään tähän).

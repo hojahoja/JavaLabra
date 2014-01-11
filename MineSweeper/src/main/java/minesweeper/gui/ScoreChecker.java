@@ -96,19 +96,20 @@ public class ScoreChecker {
     }
 
     /**
-     * This method is used by the difficulty setters to make sure that only one boolean value
-     * in the difficulty array is set to true.
+     * This method is used by the difficulty setters to make sure that only one
+     * boolean value in the difficulty array is set to true.
      */
     public void resetDifficulties() {
         for (int i = 0; i < difficulty.length; i++) {
             difficulty[i] = false;
         }
     }
-    
+
     /**
-     * Evaluates the score and calls other methods to save the score.
-     * Does nothing if the current game mode is set to custom.
-     * @param time 
+     * Evaluates the score and calls other methods to save the score. Does
+     * nothing if the current game mode is set to custom.
+     *
+     * @param time String
      */
     public void evaluateScore(String time) {
         boolean gameModeIsSetToCustom = difficulty[3];
@@ -126,13 +127,19 @@ public class ScoreChecker {
         scoreSaver.writeNewScoreToFile();
         scoreKeeper.updateScores();
     }
-
+    /**
+     * Creates an JOptionPane that is used to ask the name of the player.
+     * Shows an error window if nothing was written
+     * 
+     * @param position the position of the score
+     * @param time the score time
+     */
     private void askForname(int position, String time) {
         String name = (String) JOptionPane.showInputDialog(gui.getFrame(), "Your position " + (position + 1) + "\n Type Your name:");
         boolean somethingWasEntered = name == null || name.isEmpty();
 
         if (somethingWasEntered) {
-            JOptionPane.showMessageDialog(gui.getFrame(), "You can't leave the score field empty", "Wrong Imput", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(gui.getFrame(), "You can't leave the score field empty", "Wrong Input", JOptionPane.WARNING_MESSAGE);
             askForname(position, time);
         } else {
             Score newScore = new Score(time, name);
@@ -142,6 +149,12 @@ public class ScoreChecker {
 
     }
 
+    /**
+     * Reorders the scores recursively.
+     * 
+     * @param newScore
+     * @param position 
+     */
     private void reorderPositions(Score newScore, int position) {
         Score previousScore = currentScore.get(position);
         if (position < 10) {

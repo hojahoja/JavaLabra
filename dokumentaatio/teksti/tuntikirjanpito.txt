@@ -61,5 +61,23 @@ Deadline 4 varten viimeistelyä.
 4.12.14 2h+
 Tutustuminen swinging dialogeihin. Sähläämiseen kului aikaa
 
-5.12.14 +-0h
+5.12.14 +-3h
 Koodikatselmoinnin aloittaminen. Repo ladattu about 14:30
+
+8.12.14 4h+
+Pientä lisäystä grafiikkaan bugikorjausta ja Timerin valmiiksi saaminen
+Deadline 5 kriteerien täyttäminen
+
+9.12.14 6+h
+Demotilaisuuteen nopea scoreominaisuuden väsääminen ja muu valmistautuminen.
+
+10.12.14 12h+ X_X
+Score ominaisuuskion uudelleen kirjoittaminen(piti saada toimimaan .jarissa).
+Scoreominaisuuden kanssa taistelu ja ongelmien selvittämiseen
+meni niin paljon aikaa(mavenin vaikeuttaessa asiota), että ääniin ei jäänytkään
+aikaa :( ...
+
+Javadocin viimeistely ja luominen. Testien lisääminen.
+Dokumentaation muuntelu ja parantelu
+
+Palautus
