@@ -1,11 +1,19 @@
 package minesweeper.domain;
 
 /**
+ * Stores Score Information
  *
  * @author juri
  */
 public class Score {
+    
+    /**
+     * time as a string
+     */
     private String time;
+    /**
+     * the enter name
+     */
     private String name;
 
     public Score(String time, String name) {
@@ -20,10 +28,9 @@ public class Score {
     public String getTime() {
         return time;
     }
-    
+
     @Override
     public String toString() {
-        return name+" "+time;
+        return name + " " + time;
     }
-    
 }

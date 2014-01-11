@@ -63,9 +63,9 @@ public class GameLogic {
      * open the adjacent mines of numbered cell if the cell has as many adjacent
      * flags as it has adjacent mines.
      *
-     * @param cell
-     * @param x
-     * @param y
+     * @param cell current cell
+     * @param x coordinate
+     * @param y coordinate
      */
     private void openAdjacentCells(Cell cell, int x, int y) {
         int mineCount = cell.getAdjacentMineCount();
@@ -78,8 +78,8 @@ public class GameLogic {
     /**
      * Calculates cells adjacent flags.
      *
-     * @param x
-     * @param y
+     * @param x coordinate
+     * @param y coordinate
      * @return Number of the adjacent flags for the cell in the given
      * coordinates
      */
@@ -122,9 +122,9 @@ public class GameLogic {
      * Updates a HashMap that has all the flagged cell. Method is used to update
      * the HashMap that is used to determine if the win condition is met
      *
-     * @param cell
-     * @param x
-     * @param y
+     * @param cell the cell that is going to be checked for a the flag
+     * @param x coordinate
+     * @param y coordinate
      */
     private void updateFlaggedCells(Cell cell) {
         if (cell.isOpen()) {
@@ -145,9 +145,9 @@ public class GameLogic {
      * adjacent cells will not be queued up for inspection. The win condition
      * will be checked after opening a new cell.
      *
-     * @param cell
-     * @param x
-     * @param y
+     * @param cell the clicked cell
+     * @param x coordinate
+     * @param y coordinate
      */
     private void breadhFirstSearchCellOpener(Cell cell, int x, int y) {
         // These lines set up the Queue used by the BFS
@@ -198,8 +198,8 @@ public class GameLogic {
      * Used by other methods to make sure that checked coordinates exists inside
      * the minefield class.
      *
-     * @param x
-     * @param y
+     * @param x coordinate
+     * @param y coordinate
      * @return false if the index is out of bounds, true if not.
      */
     private boolean indexIsValid(int x, int y) {
@@ -215,7 +215,7 @@ public class GameLogic {
      * check the cells for mines. If all flagged cells have mines the gameWon
      * condition is changed to true
      *
-     * @param cell
+     * @param cell current cell
      */
     private void updateWinConditon(Cell cell) {
 

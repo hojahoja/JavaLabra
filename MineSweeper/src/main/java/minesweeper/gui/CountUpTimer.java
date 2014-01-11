@@ -30,7 +30,7 @@ public class CountUpTimer implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        timeLabel.setText("Time: " +formatTimeRepresentation(minutes) + ":" + formatTimeRepresentation(seconds));
+        timeLabel.setText("Time: " + formatTimeRepresentation(minutes) + ":" + formatTimeRepresentation(seconds));
         seconds++;
         countUp();
     }
@@ -52,7 +52,7 @@ public class CountUpTimer implements ActionListener {
 
     /**
      * Counts up time whenever it's called.
-     * 
+     *
      */
     private void countUp() {
         if (seconds == 60) {
@@ -83,27 +83,27 @@ public class CountUpTimer implements ActionListener {
 
     /**
      * Resets the JLabel and the ints representing time back to zero.
-     * 
+     *
      */
     public void resetTimer() {
         timeLabel.setText("Time: 00:00");
         minutes = 0;
         seconds = 0;
     }
-    
+
     /**
      * Takes the String from the timeLabel and modifies it to show only time
+     * portion of it.
+     *
      * @return time in String format.
      */
-        public String getTime() {
+    public String getTime() {
         String time = timeLabel.getText();
-        time = time.substring(time.length()-5);
+        time = time.substring(time.length() - 5);
         return time;
     }
 
     public JLabel getTimeLabel() {
         return timeLabel;
     }
-    
-
 }

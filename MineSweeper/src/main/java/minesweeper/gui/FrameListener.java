@@ -12,16 +12,26 @@ import minesweeper.domain.ScoreKeeper;
 import minesweeper.logic.GameLogic;
 
 /**
- * FrameListener is used to handle events that are outside of the actual gaming
+ * FrameListener is used to handle events that are outside of the actual game
  * field
  *
  * @author juri
  */
 public class FrameListener implements ActionListener {
 
+    /**
+     * the GUI of the game
+     */
     private GameGui gui;
+    /**
+     * GameLogic class
+     */
     private GameLogic gameLogic;
+    /**
+     * JPanel Used By an JOptionPane to get parameters for a custom game.
+     */
     private CustomOptionsPanel customFieldPanel;
+    
     // Event sources.
     private JButton reset;
     private JLabel difficultyLabel;
@@ -73,7 +83,7 @@ public class FrameListener implements ActionListener {
      * Calls createNewGame method from gui and gives it parameters according to
      * the chosen difficulty setting
      *
-     * @param source
+     * @param source of the action event
      */
     private void handleDifficultySettins(Object source) {
         if (source == easy) {
@@ -96,18 +106,23 @@ public class FrameListener implements ActionListener {
     /**
      * Add the reset button to FrameListener.
      *
-     * @param reset
+     * @param reset the reset JButton
      */
     public void addResetButton(JButton reset) {
         this.reset = reset;
     }
-
+    
+    /**
+     * Add the difficulty label to the
+     * 
+     * @param difficultyLabel a JLabel
+     */
     public void addDifficultyLabel(JLabel difficultyLabel) {
         this.difficultyLabel = difficultyLabel;
     }
 
     /**
-     * Add JMenuitems related to the difficulty settings to FrameListener.
+     * Add JMenuitems that are related to the difficulty settings to FrameListener.
      *
      * @param easy
      * @param medium
@@ -122,8 +137,8 @@ public class FrameListener implements ActionListener {
     /**
      * Add JMenuitems Related to Custom Game Settings and High Score screens.
      *
-     * @param customGame
-     * @param hiScore
+     * @param customGame A JmenuItem for selecting the custom game
+     * @param hiScore JMenuItem for checking the high scores.
      */
     public void addCustomGameAndHiScoreMenuItems(JMenuItem customGame, JMenuItem eScore, JMenuItem mScore, JMenuItem hScore) {
         this.customGame = customGame;
@@ -182,7 +197,7 @@ public class FrameListener implements ActionListener {
 
             } catch (NumberFormatException e) {
 
-                JOptionPane.showMessageDialog(gui.getFrame(), "Use Numbers");
+                JOptionPane.showMessageDialog(gui.getFrame(), "Use Numbers", "Input Error", JOptionPane.ERROR_MESSAGE);
                 customFieldPanel.clearPanelValues();
             }
         } else if (option == JOptionPane.CANCEL_OPTION) {
@@ -208,7 +223,7 @@ public class FrameListener implements ActionListener {
     /**
      * Creates an JOptionPane that shows the score taken from the scoreArray
      *
-     * @param scoreArray
+     * @param scoreArray A String array that contains the scores
      */
     private void createScoreWindow(String[] scoreArray) {
         JOptionPane.showMessageDialog(gui.getFrame(), scoreArray, "High Scores", JOptionPane.INFORMATION_MESSAGE);

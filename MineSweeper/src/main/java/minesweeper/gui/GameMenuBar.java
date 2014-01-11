@@ -11,17 +11,19 @@ import javax.swing.*;
  */
 public class GameMenuBar extends JMenuBar {
 
+    /**
+     * frameListener main listener of the GameMenuBar.
+     */
     private FrameListener frameListener;
     private JMenu options;
     private JMenu difficulty;
     private JMenuItem custom;
     private JMenu hiScore;
-    
 
     /**
      * Creates the JMenuBar for the GameGUI.
      *
-     * @param frameListener
+     * @param frameListener main listener of the GameMenuBar
      */
     public GameMenuBar(FrameListener frameListener) {
         this.frameListener = frameListener;
@@ -29,7 +31,7 @@ public class GameMenuBar extends JMenuBar {
         this.add(options);
 
         createDifficultySubMenu();
-        this.custom = new JMenuItem("Custom Game");        
+        this.custom = new JMenuItem("Custom Game");
 
         this.custom.addActionListener(frameListener);
         createHighscoreSubMenu();
@@ -61,17 +63,21 @@ public class GameMenuBar extends JMenuBar {
         difficulty.add(hard);
     }
 
+    /**
+     * Creates the submenu for checking high scores of the different difficulty
+     * modes.
+     */
     private void createHighscoreSubMenu() {
         this.hiScore = new JMenu("View High Scores");
         JMenuItem easyScore = new JMenuItem("Easy");
         JMenuItem mediumScore = new JMenuItem("Medium");
         JMenuItem hardScore = new JMenuItem("Hard");
-        
+
         easyScore.addActionListener(frameListener);
         mediumScore.addActionListener(frameListener);
         hardScore.addActionListener(frameListener);
         frameListener.addCustomGameAndHiScoreMenuItems(custom, easyScore, mediumScore, hardScore);
-        
+
         hiScore.add(easyScore);
         hiScore.add(mediumScore);
         hiScore.add(hardScore);

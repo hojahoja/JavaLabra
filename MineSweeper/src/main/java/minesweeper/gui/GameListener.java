@@ -16,18 +16,48 @@ import minesweeper.logic.GameLogic;
 import minesweeper.domain.Score;
 
 /**
+ * The main listener class of the game. Activates after either the right or left
+ * mouse button has been released updates the GUI with the information gathered
+ * from gameLogic
  *
  * @author juri
  */
 public class GameListener implements MouseListener {
 
+    /**
+     * 2D array that contains the JButtons which works as clickable cells of the
+     * game.
+     */
     private JButton[][] fieldButtons;
+    /**
+     * Game listener uses gameLogic to operate.
+     */
     private GameLogic gameLogic;
+    /**
+     * FileContainer is used to get change between flag and empty icons on the.
+     * fly
+     */
     private FileContainer fileContainer;
+    /**
+     * status JLabel is updated according to the game status (Ongoing/Win/Lose).
+     */
     private JLabel status;
+    /**
+     * Visual flag count (flagged cells/total mines).
+     */
     private JLabel flagCount;
+    /**
+     * Timer is started when the the first cell is clicked and stopped when the
+     * game ends.
+     */
     private CountUpTimer countUpTimer;
+    /**
+     * Used to evaluate the score and write it in the score file if needed.
+     */
     private ScoreChecker scoreChecker;
+    /**
+     * boolean that makes sure that scoreIsn't checked multiple times.
+     */
     private boolean doneChecking;
 
     /**
@@ -56,12 +86,18 @@ public class GameListener implements MouseListener {
      * This method is used by the GUI to add the status JLabel after the
      * GameListener has already been created.
      *
-     * @param status
+     * @param status JLabel that shows if the game is ongoing/won/lost
      */
     public void addStatusLabel(JLabel status) {
         this.status = status;
     }
 
+    /**
+     * This method is used by the GUI to add the flagCount JLabel after the
+     * GameListener has already been created.
+     *
+     * @param flagCount number of flags
+     */
     public void addFlagCountLabel(JLabel flagCount) {
         this.flagCount = flagCount;
     }
@@ -85,10 +121,10 @@ public class GameListener implements MouseListener {
     /**
      * Searches for the coordinates (x.y) of the clicked JButton.
      *
-     * @param height
-     * @param width
+     * @param height used as a limit
+     * @param width used as a limit
      * @param source the JButton that was clicked.
-     * @return
+     * @return the coordinates of the clicked button
      */
     private Point getClickedButtonCoordinates(int height, int width, Object source) {
         for (int i = 0; i < height; i++) {
@@ -125,8 +161,8 @@ public class GameListener implements MouseListener {
      * button is disabled which reveals the bomb icon. If the cell does not have
      * a mine setAdjacentMineInfo method is called.
      *
-     * @param j
-     * @param i
+     * @param j x coordinate
+     * @param i y coordinate
      */
     private void openedStatusUpdate(int j, int i) {
         boolean cellIsOpen = gameLogic.getMinefield().getCell(j, i).isOpen();
@@ -147,9 +183,9 @@ public class GameListener implements MouseListener {
      * of adjacent mines shown in the game. If there are no adjacent mines it
      * will only color the JButton to signify it's opened status.
      *
-     * @param j
-     * @param i
-     * @param current
+     * @param j x coordinate
+     * @param i y coordinate
+     * @param current the clicked JButton
      */
     private void setAdjacentMineInfo(int j, int i, JButton current) {
         int mineCount = gameLogic.getMinefield().getCell(j, i).getAdjacentMineCount();
@@ -166,7 +202,7 @@ public class GameListener implements MouseListener {
     /**
      * Chooses a proper color for the specified mine count.
      *
-     * @param mineCount
+     * @param mineCount number of adjacent mines
      * @return the Color chosen for a specific number.
      */
     private Color getNumberColor(int mineCount) {
@@ -196,8 +232,8 @@ public class GameListener implements MouseListener {
      * nothing if the cell is opened.
      *
      *
-     * @param j
-     * @param i
+     * @param j x coordinate
+     * @param i y coordinate
      */
     private void flaggedStatusUpdate(int j, int i) {
         ImageIcon flagIcon = fileContainer.getFlagIcon();
@@ -238,21 +274,22 @@ public class GameListener implements MouseListener {
     /**
      * Checks for current difficulty settings and calls scorekeeper to evaluate
      * the finish time for possible high scores. calls for a method to add the
-     * new score if is in the top 10.
+     * new score if is in the top 10. this method will return doing nothing if
+     * it has already called in the current game
      *
      */
     private void checkHighScores() {
         if (doneChecking) {
             return;
         }
-        
+
         String time = countUpTimer.getTime();
         scoreChecker.evaluateScore(time);
         doneChecking = true;
     }
 
     // Unused methods that are only here because the 
-    // implementations of MouseListener needs the to be here.
+    // implementation of MouseListener needs them to be here.
     @Override
     public void mouseClicked(MouseEvent e) {
     }
