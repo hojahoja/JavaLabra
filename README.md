@@ -1,4 +1,4 @@
-JavaLabra
+MineSweeper
 =========
 
 The classic Mine Sweeper Game:
